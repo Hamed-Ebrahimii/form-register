@@ -1,0 +1,68 @@
+{
+    "city" : [
+        {
+            "id" : 0,
+            "name" : "tehran"
+        },
+        {
+            "id" : 1,
+            "name" : "mashhad"
+        },
+        {
+            "id" : 2,
+            "name" : "kerman"
+        },
+        {
+            "id" : 3,
+            "name" : "karaj"
+        },
+        {
+            "id" : 4,
+            "name" : "shiraz"
+        }
+    ],
+    "job" : [
+        {
+            "id" : 0,
+            "name" : "front developer"
+        },
+        {
+            "id" : 1,
+            "name" : "backend developer"
+        },
+        {
+            "id" : 2,
+            "name" : "mobile developer"
+        },
+        {
+            "id" : 3,
+            "name" : "desktop developer"
+        },
+        {
+            "id" : 4,
+            "name" : "ui designer"
+        }
+    ],
+    "education" : [
+        {
+            "id" : 0,
+            "name" : "سیکل"
+        },
+        {
+            "id" : 1,
+            "name" : "دیپلم"
+        },
+        {
+            "id" : 2,
+            "name" : "لیسانس"
+        },
+        {
+            "id" : 3,
+            "name" : "فوق لیسانس"
+        },
+        {
+            "id" : 4,
+            "name" : "دکترا"
+        }
+    ]
+}

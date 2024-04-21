@@ -1,0 +1,34 @@
+@font-face {
+  font-family: 'yekan';
+  src: url('/font/Yekan.ttf');
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+  --sb-track-color: #585858;
+  --sb-thumb-color: #0a7494;
+  --sb-size: 4px;
+}
+
+*::-webkit-scrollbar {
+  width: var(--sb-size)
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 1px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 1px;
+
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+  }
+}
+

@@ -11,7 +11,7 @@ interface Iprops
 }
 const Input = (props: Iprops) => {
   return (
-    <div className="w-full flex flex-col items-start justify-center gap-2">
+    <div className="w-full flex flex-col items-start justify-center self-start gap-2">
       <label
         className="text-sm text-gray-500 font-medium"
         htmlFor={props.htmlFor}

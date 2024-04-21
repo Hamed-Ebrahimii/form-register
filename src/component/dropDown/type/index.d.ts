@@ -11,7 +11,7 @@ interface Iprops extends HTMLAttributes<HTMLDivElement> {
     checkBox? : boolean,
     data? : string[]
     searchData? : ISearch
-    name : "name" | "website" | "company" | "phone" | "city" | "job" | "education",
+    name : "name" | "website" | "company" | "phone" | "city" | "job" | "education" | "militaryService",
     lable : string
     requier? : boolean
 
@@ -24,4 +24,5 @@ interface ISearch  {
     city : string,
     job : stringو
     education : string
+    militaryService
 }

@@ -12,10 +12,7 @@ const Header = () =>{
           path: "/education",
           name: "سوابق تحصیلی",
         },
-        {
-          path: "/job",
-          name: "شغل",
-        },
+       
       ];
     
     return(

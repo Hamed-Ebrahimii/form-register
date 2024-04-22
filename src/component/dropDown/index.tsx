@@ -61,11 +61,13 @@ const DropDown = (props: Iprops) => {
       </label>
       <button
         type="button"
-        className={`bg-gray-100 border-gray-200  py-1 px-5 rounded-full focus:border-blue-300 text-gray-500 text-lg font-medium flex items-center justify-between`}
+        className={`bg-gray-100 border py-1 px-5 rounded-full focus:border-blue-300 text-gray-500 text-lg font-medium flex items-center justify-between ${props.error ? 'border-red-400' : 'border-gray-200 '}`}
         onClick={() => {
           setShowDrop(!showDrop);
           animeRotate();
+          
         }}
+        
       >
         <span>{selected}</span>
         <MdOutlineArrowDropDown className={props.name} />
@@ -98,6 +100,7 @@ const DropDown = (props: Iprops) => {
           ) : (
             props.data?.map((item) => (
               <SelectOption
+                onChange={props.onChange}
                 isChecked={props.multiple ? undefined : value.includes(item)}
                 setValue={handleItem}
                 checkBox={props.checkBox || false}
@@ -119,6 +122,11 @@ const DropDown = (props: Iprops) => {
             ))}
         </div>
       )}
+      {
+        
+          props.error && <p className="text-xs text-red-400 font-medium">{props.error}</p>
+        
+      }
     </div>
   );
 };

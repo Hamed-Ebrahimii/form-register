@@ -5,10 +5,10 @@ interface Iprops {
     value : string,
     children : ReactNode,
     isChecked : boolean | undefined
-   
+    onChange? : (value : string) => void
     setValue : (value : string) => void
 }
-const SelectOption = ({checkBox , children , value  , setValue , isChecked} : Iprops) =>{
+const SelectOption = ({checkBox , children , value  , setValue , isChecked , onChange} : Iprops) =>{
     return(
         <div  className="flex items-center justify-between gap-2 hover:bg-slate-400 my-4 px-3 hover:text-white rounded-md cursor-pointer">
             {
@@ -18,7 +18,7 @@ const SelectOption = ({checkBox , children , value  , setValue , isChecked} : Ip
                     <input checked={isChecked} type="checkbox" className="checkbox" id={value} onChange={()=>  setValue(value)}/>
                 </>
                 :
-                <div onClick={()=>setValue(value)}>
+                <div onClick={()=> {setValue(value) ; onChange && onChange(value)}}>
                         {
                             children
                         }

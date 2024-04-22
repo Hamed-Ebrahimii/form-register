@@ -5,8 +5,8 @@ interface Iprops extends HTMLAttributes<HTMLDivElement> {
     multiple? : boolean,
     search? : boolean,
     isLoading? : boolean,
+    // eslint-disable-next-line @typescript-eslint/ban-types
     fnData : Function,
-   
     setSearchValue? : Dispatch<React.SetStateAction<ISearch>>
     checkBox? : boolean,
     data? : string[]
@@ -14,7 +14,8 @@ interface Iprops extends HTMLAttributes<HTMLDivElement> {
     name : "name" | "website" | "company" | "phone" | "city" | "job" | "education" | "militaryService",
     lable : string
     requier? : boolean
-
+    error? : string
+    onChange? : (value : string) => void
 }
 interface ISearch  {
     name : string,

@@ -7,9 +7,9 @@ import { MdOutlineArrowDropDown } from "react-icons/md";
 const DropDown = (props: Iprops) => {
   const [showDrop, setShowDrop] = useState(false);
   const [value, setValue] = useState<string[]>([]);
-  const [selected, setSelected] = useState("select " + props.name);
+  const [selected, setSelected] = useState(props.placeholder || "");
   const handleItem = (data: string) => {
-    setShowDrop(false)
+    setShowDrop(false);
     const response = value.findIndex((item) => item === data);
     if (props.multiple) {
       if (response === -1) {
@@ -44,13 +44,11 @@ const DropDown = (props: Iprops) => {
     if (showDrop) {
       handleShowAnime();
     }
-    animeRotate()
+    animeRotate();
   }, [showDrop]);
   return (
     <div
-      className={
-        "flex flex-col w-full gap-2 bg-inherit rounded-lg  relative "
-      }
+      className={"flex flex-col w-full gap-2 bg-inherit rounded-lg  relative "}
     >
       <label
         className="text-sm text-gray-500 font-medium"
@@ -61,23 +59,22 @@ const DropDown = (props: Iprops) => {
       </label>
       <button
         type="button"
-        className={`bg-gray-100 border py-1 px-5 rounded-full focus:border-blue-300 text-gray-500 text-lg font-medium flex items-center justify-between ${props.error ? 'border-red-400' : 'border-gray-200 '}`}
+        className={`bg-gray-100 border text-sm py-1 px-5 rounded-full focus:border-blue-300 text-gray-500  font-medium flex items-center justify-between ${
+          props.error ? "border-red-400" : "border-gray-200 "
+        }`}
         onClick={() => {
           setShowDrop(!showDrop);
           animeRotate();
-          
         }}
-        
       >
         <span>{selected}</span>
-        <MdOutlineArrowDropDown className={props.name} />
+        <MdOutlineArrowDropDown />
       </button>
-
       {showDrop && (
-        <div className="drop opacity-0 bg-slate-100 px-3  rounded-lg mt-5 max-h-40 py-5 overflow-auto absolute z-20 top-12 ">
+        <div className="drop opacity-0 bg-slate-100 px-3  rounded-lg mt-5 max-h-40 py-5 overflow-auto absolute z-20 top-12 w-full">
           {props.search && (
             <Search
-              value={props.searchData && props.searchData[props.name] || ""}
+              value={(props.searchData && props.searchData[props.name]) || ""}
               onChange={(e) => {
                 const newState: ISearch = JSON.parse(
                   JSON.stringify(props.searchData)
@@ -122,11 +119,9 @@ const DropDown = (props: Iprops) => {
             ))}
         </div>
       )}
-      {
-        
-          props.error && <p className="text-xs text-red-400 font-medium">{props.error}</p>
-        
-      }
+      {props.error && (
+        <p className="text-xs text-red-400 font-medium">{props.error}</p>
+      )}
     </div>
   );
 };

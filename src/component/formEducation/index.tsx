@@ -4,6 +4,8 @@ import Input from "../form/component/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EducationForm, EducationFormType } from "../../validation/registerFormValidation";
 import Datalist from "../datalist";
+import { parsNumberToString } from "../../utils/parsNumberToString";
+import { useState } from "react";
 const FormEducation = () => {
   const {control , formState : {errors} , handleSubmit} = useForm<EducationFormType>({
     mode : 'all',
@@ -13,6 +15,7 @@ const FormEducation = () => {
     console.log(data);
     
   }
+  const [convertNumberToString , setConvertNumberToString] = useState('')
   return (
     <form onSubmit={handleSubmit(onSubmit)} className=" w-full rounded-xl px-8 py-12  shadow-sm ">
       <section className="w-full grid grid-cols-4 gap-5 mt-6">
@@ -20,13 +23,17 @@ const FormEducation = () => {
         name='degreeOfEducation'
         control={control}
          render={({field})=>(
-          <div>
-          <Input htmlFor=""  lable="آخرین مدرک تحصیلی" error={errors.degreeOfEducation?.message} requier list="degreeOfEducation" {...field}/>
-          <Datalist
-           id="degreeOfEducation"
-            data={ ['دیپلم' , 'فوق دیپلم' ,'لیسانس' , 'فوق لیسانس' , 'دکترا']}
+          <DropDown
+          {...field}
+          search={false}
+          error={errors.degreeOfEducation?.message}
+            fnData={() => {}}
+            lable="وضیعت نظام وظیفه"
+            requier
+            name="militaryService"
+            data={['دیپلم' , 'فوق دیپلم' , 'لیسانس' , 'فوق لیسانس' , 'دکترا' ]}
+            placeholder="انتخاب کنید"
           />
-          </div>
          )}
         />
         <Controller
@@ -36,11 +43,16 @@ const FormEducation = () => {
            <Input
             onChange={(e)=>{
               field.onChange(+e.target.value)
+              setConvertNumberToString(parsNumberToString(+e.target.value));
+              console.log(+e.target.value);
+              
             }}
             error={errors.average?.message}
              htmlFor=""
              lable="معدل اخرین مدرک خود"
              requier
+             min={0}
+             max={20}
              type="number"
              placeholder="معدل خود را وارد کنید"
              id="family"
@@ -73,6 +85,8 @@ const FormEducation = () => {
              htmlFor="code"
              lable="معدل کل به حروف"
              requier
+             value={convertNumberToString}
+             readOnly
              placeholder="معدل  خود را وارد کنید"
              type="text"
              id="code"

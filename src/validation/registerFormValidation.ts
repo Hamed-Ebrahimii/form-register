@@ -64,7 +64,7 @@ export const profileFormValidation = z.object({
 export type profileFormValidationType = z.infer<typeof profileFormValidation>;
 export const EducationForm = z.object({
   degreeOfEducation: z.string({
-    required_error: "لطفا مدر تحصیلی خود راانتخاب کنید ",
+    required_error: "لطفا مدرک تحصیلی خود راانتخاب کنید ",
   }),
   average: z
     .number({ required_error: "لطفا معدل خود را وارد کنید " })

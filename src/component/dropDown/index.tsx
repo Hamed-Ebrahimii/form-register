@@ -24,7 +24,7 @@ const DropDown = (props: Iprops) => {
       setValue([""]);
       return;
     }
-    setValue(data === "انتخاب کنید" ? [""] : [data]);
+    setValue([data]);
     setSelected(data);
     props.setSearchValue("");
   };
@@ -112,7 +112,7 @@ const DropDown = (props: Iprops) => {
               />
             ) : (
               <>
-                {props.search ===false && (
+                {!props.search && (
                   <SelectOption
                     onChange={props.onChange}
                     isChecked={

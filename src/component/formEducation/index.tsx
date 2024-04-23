@@ -3,6 +3,7 @@ import DropDown from "../dropDown";
 import Input from "../form/component/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EducationForm, EducationFormType } from "../../validation/registerFormValidation";
+import Datalist from "../datalist";
 const FormEducation = () => {
   const {control , formState : {errors} , handleSubmit} = useForm<EducationFormType>({
     mode : 'all',
@@ -19,15 +20,13 @@ const FormEducation = () => {
         name='degreeOfEducation'
         control={control}
          render={({field})=>(
-           <DropDown
-            {...field}
-            error={errors.degreeOfEducation?.message}
-             requier
-             lable="آخرین مدرک تحصیلی"
-             fnData={() => {}}
-             name="education"
-             data={["دیپلم", "فوق دیپلم", "لیسانس", "فوق لیسانس"]}
-           />
+          <div>
+          <Input htmlFor=""  lable="آخرین مدرک تحصیلی" error={errors.degreeOfEducation?.message} requier list="degreeOfEducation" {...field}/>
+          <Datalist
+           id="degreeOfEducation"
+            data={ ['دیپلم' , 'فوق دیپلم' ,'لیسانس' , 'فوق لیسانس' , 'دکترا']}
+          />
+          </div>
          )}
         />
         <Controller

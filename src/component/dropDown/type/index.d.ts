@@ -23,7 +23,7 @@ interface Iprops extends HTMLAttributes<HTMLDivElement> {
   lable: string;
   requier?: boolean;
   error?: string;
-  onChange?: (value: string) => void;
+  onChange?: (value: string | undefined) => void;
   placeholder?: string;
 }
 interface ISearch {

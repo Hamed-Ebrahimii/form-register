@@ -5,7 +5,7 @@ interface Iprops {
   value: string;
   children: ReactNode;
   isChecked: boolean | undefined;
-  onChange?: (value: string) => void;
+  onChange?: (value: string | undefined) => void;
   setValue: (value: string) => void;
 }
 const SelectOption = ({
@@ -20,9 +20,11 @@ const SelectOption = ({
     <div
       onClick={() => {
         setValue(value);
-        onChange && onChange(value);
+        console.log(value);
+        
+        onChange && onChange(value === "انتخاب کنید" ? undefined :  value);
       }}
-      className="flex items-center justify-between gap-2 hover:bg-slate-400 my-4 px-3 hover:text-white rounded-md cursor-pointer"
+      className="flex items-center justify-between gap-2 hover:bg-gray-400 mb-4 px-3 py-1 hover:text-white rounded-md cursor-pointer"
     >
       {checkBox ? (
         <>

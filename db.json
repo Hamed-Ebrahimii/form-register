@@ -2,23 +2,23 @@
     "city" : [
         {
             "id" : 0,
-            "name" : "tehran"
+            "name" : "تهران"
         },
         {
             "id" : 1,
-            "name" : "mashhad"
+            "name" : "مشهد"
         },
         {
             "id" : 2,
-            "name" : "kerman"
+            "name" : "کرمان"
         },
         {
             "id" : 3,
-            "name" : "karaj"
+            "name" : "کرج"
         },
         {
             "id" : 4,
-            "name" : "shiraz"
+            "name" : "شیراز"
         }
     ],
     "job" : [

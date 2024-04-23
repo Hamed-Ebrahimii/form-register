@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SelectOption from "./component/option";
 import Search from "./component/search";
 import { ISearch, Iprops } from "./type";
 import anime from "animejs/lib/anime.es.js";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 const DropDown = (props: Iprops) => {
+  const input = useRef<HTMLInputElement>(null)
   const [showDrop, setShowDrop] = useState(false);
   const [value, setValue] = useState<string[]>([]);
   const [selected, setSelected] = useState(props.placeholder || "");
@@ -23,8 +24,9 @@ const DropDown = (props: Iprops) => {
       setValue([""]);
       return;
     }
-    setValue([data]);
+    setValue(data === "انتخاب کنید" ? [""] : [data]);
     setSelected(data);
+    props.setSearchValue("");
   };
   const handleShowAnime = () => {
     anime({
@@ -40,6 +42,9 @@ const DropDown = (props: Iprops) => {
       duration: 1000,
     }).play();
   };
+  const newState: ISearch = JSON.parse(
+    JSON.stringify(props.searchData || {})
+  );
   useEffect(() => {
     if (showDrop) {
       handleShowAnime();
@@ -57,58 +62,86 @@ const DropDown = (props: Iprops) => {
         {props.lable}
         {props.requier && <span className="text-red-400 font-bold"> *</span>}
       </label>
-      <button
-        type="button"
-        className={`bg-gray-100 border min-w-32 text-ellipsis overflow-hidden whitespace-nowrap text-xs py-2 px-2 md:px-5 rounded-full focus:border-blue-300 text-gray-400  font-bold flex items-center justify-between ${
+      <div
+        className={`bg-gray-100 border rounded-lg w-full text-ellipsis overflow-hidden whitespace-nowrap text-xs py-2 px-2   focus:border-blue-300 text-gray-400  font-bold flex items-center justify-center ${
           props.error ? "border-red-400" : "border-gray-200 "
         }`}
-        onClick={() => {
-          setShowDrop(!showDrop);
-          animeRotate();
-        }}
       >
-        <span>{selected}</span>
-        <MdOutlineArrowDropDown />
-      </button>
-      {showDrop && (
-        <div className="drop opacity-0 bg-slate-100 px-3  rounded-lg mt-5 max-h-40 py-5 overflow-auto absolute z-20 top-12 w-full">
-          {props.search && (
-            <Search
-              value={(props.searchData && props.searchData[props.name]) || ""}
-              onChange={(e) => {
-                const newState: ISearch = JSON.parse(
-                  JSON.stringify(props.searchData)
-                );
-                newState[props.name] = e;
-                props.setSearchValue(newState);
-              }}
-            />
-          )}
-          {props.children ? (
-            props.children
-          ) : props.data?.length === 0 ? (
-            <SelectOption
-              isChecked={false}
-              setValue={handleItem}
-              checkBox={props.checkBox || false}
-              children={["please whate"]}
-              value={""}
-            />
-          ) : (
-            props.data?.map((item) => (
+        <button
+          type="button"
+          className={`bg-inherit outline-none w-full text-ellipsis overflow-hidden whitespace-nowrap text-xs   rounded-full focus:border-blue-300 text-gray-400  font-bold flex items-center justify-between ${
+            props.error ? "border-red-400" : "border-gray-200 "
+          }`}
+          onClick={() => {
+            setShowDrop(!showDrop);
+            animeRotate();
+          }}
+          onKeyDown={()=>{
+            console.log(input.current);
+            
+            input.current?.focus()            
+          }}
+        >
+          <span>{selected}</span>
+          <MdOutlineArrowDropDown className="text-xl" />
+        </button>
+        {showDrop && (
+          <div className="drop opacity-0 bg-gray-100 border px-3  rounded-lg mt-5 max-h-40 py-2 overflow-auto absolute z-20 top-11 w-full">
+            {props.search && (
+              <Search
+              ref={input}
+                value={(props.searchData && props.searchData[props.name]) || ""}
+                onChange={(e) => {
+                 
+                  
+                  
+                  newState[props.name] = e;
+                  props.setSearchValue(newState);
+                }}
+              />
+            )}
+            {props.children ? (
+              props.children
+            ) : props.data?.length === 0 ? (
               <SelectOption
-                onChange={props.onChange}
-                isChecked={props.multiple ? undefined : value.includes(item)}
+                isChecked={false}
                 setValue={handleItem}
                 checkBox={props.checkBox || false}
-                key={item}
-                children={item}
-                value={item}
+                children={["گزینه ای یافت نشد"]}
+                value={""}
               />
-            ))
-          )}
-        </div>
-      )}
+            ) : (
+              <>
+                {props.search ===false && (
+                  <SelectOption
+                    onChange={props.onChange}
+                    isChecked={
+                      props.multiple ? undefined : value.includes("انتخاب کنید")
+                    }
+                    setValue={handleItem}
+                    checkBox={props.checkBox || false}
+                    children={"انتخاب کنید"}
+                    value={"انتخاب کنید"}
+                  />
+                )}
+                {props.data?.map((item) => (
+                  <SelectOption
+                    onChange={props.onChange}
+                    isChecked={
+                      props.multiple ? undefined : value.includes(item)
+                    }
+                    setValue={handleItem}
+                    checkBox={props.checkBox || false}
+                    key={item}
+                    children={item}
+                    value={item}
+                  />
+                ))}
+              </>
+            )}
+          </div>
+        )}
+      </div>
       {props.multiple && (
         <div className="w-10/12 grid grid-cols-2 gap-4 absolute mt-6">
           {value &&

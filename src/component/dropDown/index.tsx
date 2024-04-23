@@ -59,7 +59,7 @@ const DropDown = (props: Iprops) => {
       </label>
       <button
         type="button"
-        className={`bg-gray-100 border text-sm py-1 px-5 rounded-full focus:border-blue-300 text-gray-500  font-medium flex items-center justify-between ${
+        className={`bg-gray-100 border min-w-32 text-ellipsis overflow-hidden whitespace-nowrap text-xs py-2 px-2 md:px-5 rounded-full focus:border-blue-300 text-gray-400  font-bold flex items-center justify-between ${
           props.error ? "border-red-400" : "border-gray-200 "
         }`}
         onClick={() => {

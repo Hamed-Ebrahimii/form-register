@@ -13,11 +13,8 @@ const DropDown = (props: Iprops) => {
   const [value, setValue] = useState<string[]>([]);
   const [selected, setSelected] = useState(props.placeholder || "");
   const ref= useClickOutside(()=>setShowDrop(false))
-  
   const handleItem = (data: string) => {
-   
     const response = value.findIndex((item) => item === data);
-    console.log(value.includes(data));
     if (props.multiple) {
       if (response === -1) {
         setValue([...value, data]);
@@ -159,6 +156,7 @@ const DropDown = (props: Iprops) => {
                 {props.selectAll && (
                   <SelectOption
                     onChange={() => {
+                      setSelectAll(!selectAll);
                       if (selectAll) {
                         setValue(props.data || []);
                       }
@@ -168,7 +166,7 @@ const DropDown = (props: Iprops) => {
                     }}
                     isChecked={selectAll}
                     setValue={(e) => {
-                      setSelectAll(!selectAll);
+                    
                       if (selectAll) {
                         setValue(props.data || []);
                       }

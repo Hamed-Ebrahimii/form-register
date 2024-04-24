@@ -4,29 +4,41 @@ import Search from "./component/search";
 import { ISearch, Iprops } from "./type";
 import anime from "animejs/lib/anime.es.js";
 import { MdOutlineArrowDropDown } from "react-icons/md";
+import { IoMdClose } from "react-icons/io";
 const DropDown = (props: Iprops) => {
-  const input = useRef<HTMLInputElement>(null)
+  const [selectAll, setSelectAll] = useState(false);
+  const input = useRef<HTMLInputElement>(null);
   const [showDrop, setShowDrop] = useState(false);
   const [value, setValue] = useState<string[]>([]);
   const [selected, setSelected] = useState(props.placeholder || "");
+  const [data, setData] = useState<string[]>(props.data || []);
   const handleItem = (data: string) => {
     setShowDrop(false);
     const response = value.findIndex((item) => item === data);
+    console.log(value.includes(data));
     if (props.multiple) {
       if (response === -1) {
         setValue([...value, data]);
+        setSelected(data);
       } else {
         setValue(value.filter((item) => item !== data));
+        setSelected(data);
       }
+      
       return;
     }
     if (response >= 0) {
       setValue([""]);
+      setSelected(data);
       return;
     }
     setValue([data]);
     setSelected(data);
     props.setSearchValue("");
+  };
+  const handleRemove = (name: string) => {
+    setValue(value.filter((item) => item !== name));
+    setSelected("انتخاب کنید");
   };
   const handleShowAnime = () => {
     anime({
@@ -42,15 +54,16 @@ const DropDown = (props: Iprops) => {
       duration: 1000,
     }).play();
   };
-  const newState: ISearch = JSON.parse(
-    JSON.stringify(props.searchData || {})
-  );
+  const newState: ISearch = JSON.parse(JSON.stringify(props.searchData || {}));
   useEffect(() => {
     if (showDrop) {
       handleShowAnime();
     }
     animeRotate();
   }, [showDrop]);
+  const handleSearch = (data: string[], value: string) => {
+    return data.filter((item) => item.includes(value));
+  };
   return (
     <div
       className={"flex flex-col w-full gap-2 bg-inherit rounded-lg  relative "}
@@ -76,33 +89,30 @@ const DropDown = (props: Iprops) => {
             setShowDrop(!showDrop);
             animeRotate();
           }}
-          onKeyDown={()=>{
-            console.log(input.current);
-            
-            input.current?.focus()            
+          onKeyDown={() => {
+            input.current?.focus();
           }}
         >
           <span>{selected}</span>
           <MdOutlineArrowDropDown className="text-xl" />
         </button>
         {showDrop && (
-          <div className="drop opacity-0 bg-gray-100 border px-3  rounded-lg mt-5 max-h-40 py-2 overflow-auto absolute z-20 top-11 w-full">
+          <div className="drop opacity-0 bg-gray-100 border px-3  rounded-lg mt-5 max-h-40 py-2 overflow-auto absolute z-40 top-11 w-full">
             {props.search && (
               <Search
-              ref={input}
+                ref={input}
                 value={(props.searchData && props.searchData[props.name]) || ""}
                 onChange={(e) => {
-                 
-                  
-                  
                   newState[props.name] = e;
                   props.setSearchValue(newState);
+                  setSelectAll(false);
+                  setData(handleSearch(props.data || [""], e));
                 }}
               />
             )}
             {props.children ? (
               props.children
-            ) : props.data?.length === 0 ? (
+            ) : data?.length === 0 ? (
               <SelectOption
                 isChecked={false}
                 setValue={handleItem}
@@ -119,37 +129,73 @@ const DropDown = (props: Iprops) => {
                       props.multiple ? undefined : value.includes("انتخاب کنید")
                     }
                     setValue={handleItem}
-                    checkBox={props.checkBox || false}
+                    checkBox={false}
                     children={"انتخاب کنید"}
                     value={"انتخاب کنید"}
                   />
                 )}
-                {props.data?.map((item) => (
+                {props.selectAll && (
                   <SelectOption
-                    onChange={props.onChange}
-                    isChecked={
-                      props.multiple ? undefined : value.includes(item)
-                    }
-                    setValue={handleItem}
-                    checkBox={props.checkBox || false}
-                    key={item}
-                    children={item}
-                    value={item}
+                    onChange={() =>{
+                     
+                      if(selectAll){
+                        setValue(props.data || [])
+                      }
+                      if(selectAll === false){
+                        setValue([])
+                      }
+                    }}
+                    isChecked={selectAll}
+                    setValue={(e) => {
+                   setSelectAll(!selectAll)
+                      if(selectAll){
+                        setValue(props.data || [])
+                      }
+                      if(selectAll === false){
+                        setValue([])
+                      }
+                    }}
+                    checkBox={true}
+                    children={"انتخاب کردن همه"}
+                    value={"انتخاب کردن همه"}
                   />
-                ))}
+                )}
+                {data?.map(
+                  (item) =>
+                    item !== "انتخاب کنید" && (
+                      <SelectOption
+                        onChange={props.onChange}
+                        isChecked={selectAll ? selectAll || value.includes(item) :  value.includes(item) }
+                        setValue={handleItem}
+                        checkBox={props.checkBox || false}
+                        key={item}
+                        children={item}
+                        value={item}
+                      />
+                    )
+                )}
               </>
             )}
           </div>
         )}
       </div>
       {props.multiple && (
-        <div className="w-10/12 grid grid-cols-2 gap-4 absolute mt-6">
+        <div className="w-10/12 z-20 gap-2 grid grid-cols-3  mt-1">
           {value &&
-            value.map((item) => (
-              <div key={item} className="badge badge-neutral">
-                {item}
-              </div>
-            ))}
+            value.map(
+              (item) =>
+                item !== "انتخاب کنید" && (
+                  <div
+                    key={item}
+                    className="p-1 bg-gray-100 rounded-lg  text-xs text-gray-400 flex items-center justify-between"
+                  >
+                    {item}
+                    <button onClick={() => handleRemove(item)}>
+                      <IoMdClose />
+                    </button>
+                  </div>
+                )
+            )}
         </div>
       )}
       {props.error && (

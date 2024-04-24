@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 interface Iprops {
   checkBox: boolean;
@@ -7,6 +7,7 @@ interface Iprops {
   isChecked: boolean | undefined;
   onChange?: (value: string | undefined) => void;
   setValue: (value: string) => void;
+  handleRemove ? : (val : string) => void
 }
 const SelectOption = ({
   checkBox,
@@ -16,17 +17,23 @@ const SelectOption = ({
   isChecked,
   onChange,
 }: Iprops) => {
+
+  useEffect(()=>{
+
+    if(isChecked){
+  
+        onChange && onChange(value === "انتخاب کنید" ? undefined :  value);
+    }
+  } , [isChecked])
   return (
     <div
       onClick={() => {
         setValue(value);
-        console.log(value);
-        
         onChange && onChange(value === "انتخاب کنید" ? undefined :  value);
       }}
       className="flex items-center justify-between gap-2 hover:bg-gray-400 mb-4 px-3 py-1 hover:text-white rounded-md cursor-pointer"
     >
-      {checkBox ? (
+      {checkBox ?  (
         <>
           <label htmlFor={value}>{children}</label>
           <input

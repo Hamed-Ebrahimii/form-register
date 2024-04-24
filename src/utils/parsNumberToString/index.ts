@@ -1,13 +1,24 @@
 const oneStrings = ['یک' , 'دو' , 'سه' ,'چهار' , 'پنج' ,'شیش' , 'هفت' ,'هشت' ,'نه']
 const tenToTwenty = ['یازده' , 'دوازده' , 'سیزده' , 'چهارده' , 'پانزده' , 'شانزده' , 'هفده' , 'هجده' ,'نوزده' ]
 const villagersStrings = ['ده' , 'بیست' , 'سی' , 'چهل' , 'پنجاه' , 'شصت' , 'هفتاد' , 'هشتاد' , 'نود']
+function toCommas(value : number) {
+    return value.toString().replace(/\B(?=(\d{1})+(?!\d))/g, ".");
+}
 export const parsNumberToString = (value : number) =>{
+    if(value === 0) return 'صفر'
     let IntigertString = ''
-    const villagers = Number(String(value / 10).split('.')[0])
-    const oneNumber = value % 1 === 0 && value % 10 === 0 ? 0 : 0
-    const fractional = Number(String(value).split('.')[1])
+    const spliteNumber = toCommas(value).split('.')
+    const lengthNumber = String(Math.floor(value)).length
+    const villagers = lengthNumber >= 2 && Number(spliteNumber[0]) || 0
+    const fractional = lengthNumber === 1 && Number(spliteNumber[1]) || +spliteNumber[2]
+    const oneNumber = villagers ? Number(spliteNumber[1]) : Number(spliteNumber[0]) 
+    
+    console.log(spliteNumber , oneNumber , lengthNumber);
+    
+    
+ 
+    
     if(villagers){
-        console.log(oneNumber , villagers , fractional);
         if(villagers === 1 && oneNumber === 0){
          
             
@@ -29,7 +40,9 @@ export const parsNumberToString = (value : number) =>{
             
         }
     }
-    if(villagers === 0 && fractional === 0){
+    if(villagers === 0 ){
+        console.log('ok');
+        
         IntigertString = oneStrings[oneNumber - 1]
     }
      if(fractional){
@@ -40,26 +53,26 @@ export const parsNumberToString = (value : number) =>{
             if(villagersFractional === 1 && oneNumberFractional === 0){
              
                 
-                IntigertString += ' ' + villagersStrings[0] + ' صدم'
+                IntigertString += ' و ' + villagersStrings[0] + ' صدم'
              
                 
             }
             if(villagersFractional > 0 && villagersFractional < 2 && oneNumberFractional > 0){
-                IntigertString += " " + tenToTwenty[oneNumberFractional - 1] + " صدم "
+                IntigertString += " و " + tenToTwenty[oneNumberFractional - 1] + " صدم "
             }
             if(villagersFractional >= 2){
                 if(oneNumberFractional){
     
-                    IntigertString += " " + villagersStrings[villagersFractional - 1] + ' و ' + oneStrings[oneNumberFractional - 1] + " صدم"
+                    IntigertString += " و " + villagersStrings[villagersFractional - 1] + ' و ' + oneStrings[oneNumberFractional - 1] + " صدم"
                 }
                 else {
-                        IntigertString += " "  +  villagersStrings[villagers - 1] + ' صدم'
+                        IntigertString += " و "  +  villagersStrings[villagers - 1] + ' صدم'
                 }
                 
             }
         }
         if(villagersFractional === 0){
-            IntigertString += " " + oneStrings[oneNumberFractional - 1] + ' صدم'
+            IntigertString += " و " + oneStrings[oneNumberFractional - 1] + ' صدم'
         }
      }
     

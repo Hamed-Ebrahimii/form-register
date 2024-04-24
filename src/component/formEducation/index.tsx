@@ -3,9 +3,9 @@ import DropDown from "../dropDown";
 import Input from "../form/component/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EducationForm, EducationFormType } from "../../validation/registerFormValidation";
-import Datalist from "../datalist";
 import { parsNumberToString } from "../../utils/parsNumberToString";
 import { useState } from "react";
+import { ISearch } from "../dropDown/type";
 const FormEducation = () => {
   const {control , formState : {errors} , handleSubmit} = useForm<EducationFormType>({
     mode : 'all',
@@ -15,7 +15,18 @@ const FormEducation = () => {
     console.log(data);
     
   }
+  
   const [convertNumberToString , setConvertNumberToString] = useState('')
+  const [search, setSearch] = useState<ISearch>({
+    city: "",
+    company: "",
+    name: "",
+    phone: "",
+    website: "",
+    job: "",
+    education: "",
+    militaryService : ''
+  });
   return (
     <form onSubmit={handleSubmit(onSubmit)} className=" w-full rounded-xl px-8 py-12  shadow-sm ">
       <section className="w-full grid grid-cols-4 gap-5 mt-6">
@@ -25,14 +36,21 @@ const FormEducation = () => {
          render={({field})=>(
           <DropDown
           {...field}
-          search={false}
+          checkBox
+          multiple
+          search={true}
           error={errors.degreeOfEducation?.message}
             fnData={() => {}}
-            lable="وضیعت نظام وظیفه"
+            lable="آخرین مدرک تحصیلی"
             requier
-            name="militaryService"
+            name="education"
             data={['دیپلم' , 'فوق دیپلم' , 'لیسانس' , 'فوق لیسانس' , 'دکترا' ]}
+            setSearchValue={setSearch}
+            searchData={search}
             placeholder="انتخاب کنید"
+            selectAll
+            
+            
           />
          )}
         />

@@ -25,6 +25,7 @@ interface Iprops extends HTMLAttributes<HTMLDivElement> {
   error?: string;
   onChange?: (value: string | undefined) => void;
   placeholder?: string;
+  selectAll? : boolean
 }
 interface ISearch {
   name: string;

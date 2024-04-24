@@ -24,7 +24,7 @@ const DropDown = (props: Iprops) => {
         setValue(value.filter((item) => item !== data));
         setSelected(data);
       }
-      
+
       return;
     }
     if (response >= 0) {
@@ -64,6 +64,15 @@ const DropDown = (props: Iprops) => {
   const handleSearch = (data: string[], value: string) => {
     return data.filter((item) => item.includes(value));
   };
+  useEffect(()=>{
+    if (selectAll) {
+      setValue(data)
+      setSelected('')
+    }
+    else {
+      setValue([])
+    }
+  } , [selectAll])
   return (
     <div
       className={"flex flex-col w-full gap-2 bg-inherit rounded-lg  relative "}
@@ -136,23 +145,22 @@ const DropDown = (props: Iprops) => {
                 )}
                 {props.selectAll && (
                   <SelectOption
-                    onChange={() =>{
-                     
-                      if(selectAll){
-                        setValue(props.data || [])
+                    onChange={() => {
+                      if (selectAll) {
+                        setValue(props.data || []);
                       }
-                      if(selectAll === false){
-                        setValue([])
+                      if (selectAll === false) {
+                        setValue([]);
                       }
                     }}
                     isChecked={selectAll}
                     setValue={(e) => {
-                   setSelectAll(!selectAll)
-                      if(selectAll){
-                        setValue(props.data || [])
+                      setSelectAll(!selectAll);
+                      if (selectAll) {
+                        setValue(props.data || []);
                       }
-                      if(selectAll === false){
-                        setValue([])
+                      if (selectAll === false) {
+                        setValue([]);
                       }
                     }}
                     checkBox={true}
@@ -165,7 +173,7 @@ const DropDown = (props: Iprops) => {
                     item !== "انتخاب کنید" && (
                       <SelectOption
                         onChange={props.onChange}
-                        isChecked={selectAll ? selectAll || value.includes(item) :  value.includes(item) }
+                        isChecked={selectAll || value.includes(item)}
                         setValue={handleItem}
                         checkBox={props.checkBox || false}
                         key={item}

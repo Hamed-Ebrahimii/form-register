@@ -11,7 +11,7 @@ const DropDown = (props: Iprops) => {
   const [showDrop, setShowDrop] = useState(false);
   const [value, setValue] = useState<string[]>([]);
   const [selected, setSelected] = useState(props.placeholder || "");
- 
+
   const handleItem = (data: string) => {
     setShowDrop(false);
     const response = value.findIndex((item) => item === data);
@@ -24,7 +24,6 @@ const DropDown = (props: Iprops) => {
         setValue(value.filter((item) => item !== data));
         setSelected(data);
       }
-
       return;
     }
     if (response >= 0) {
@@ -61,18 +60,20 @@ const DropDown = (props: Iprops) => {
     }
     animeRotate();
   }, [showDrop]);
- 
-  useEffect(()=>{
+
+  useEffect(() => {
     if (selectAll) {
-      setValue(props.data || [])
-      setSelected('')
+      setValue(props.data || []);
+      setSelected("");
+    } else {
+      setValue([]);
     }
-    else {
-      setValue([])
+  }, [selectAll]);
+  useEffect(() => {
+    if (props.data?.length === value.length) {
+      setSelectAll(true);
     }
-    console.log(props.data);
-    
-  } , [selectAll])
+  }, [props.data]);
   return (
     <div
       className={"flex flex-col w-full gap-2 bg-inherit rounded-lg  relative "}
@@ -107,7 +108,9 @@ const DropDown = (props: Iprops) => {
         </button>
         {showDrop && (
           <div className="drop opacity-0 bg-gray-100 border px-3  rounded-lg mt-5 max-h-40 py-2 overflow-auto absolute z-40 top-11 w-full">
-            {props.search && (
+           <div className="w-full flex items-center gap-4">
+                <div className="w-2/3">
+                {props.search && (
               <Search
                 ref={input}
                 value={(props.searchData && props.searchData[props.name]) || ""}
@@ -115,34 +118,11 @@ const DropDown = (props: Iprops) => {
                   newState[props.name] = e;
                   props.setSearchValue(newState);
                   setSelectAll(false);
-                 
                 }}
               />
             )}
-            {props.children ? (
-              props.children
-            ) : props.data?.length === 0 ? (
-              <SelectOption
-                isChecked={false}
-                setValue={handleItem}
-                checkBox={props.checkBox || false}
-                children={["گزینه ای یافت نشد"]}
-                value={""}
-              />
-            ) : (
-              <>
-                {!props.search && (
-                  <SelectOption
-                    onChange={props.onChange}
-                    isChecked={
-                      props.multiple ? undefined : value.includes("انتخاب کنید")
-                    }
-                    setValue={handleItem}
-                    checkBox={false}
-                    children={"انتخاب کنید"}
-                    value={"انتخاب کنید"}
-                  />
-                )}
+          
+                </div>
                 {props.selectAll && (
                   <SelectOption
                     onChange={() => {
@@ -168,37 +148,64 @@ const DropDown = (props: Iprops) => {
                     value={"انتخاب کردن همه"}
                   />
                 )}
-                {props.data?.map(
-                  (item) =>
-                     (
-                      <SelectOption
-                        onChange={props.onChange}
-                        isChecked={selectAll || value.includes(item)}
-                        setValue={handleItem}
-                        checkBox={props.checkBox || false}
-                        key={item}
-                        children={item}
-                        value={item}
-                      />
-                    )
+           </div>
+            {props.children ? (
+              props.children
+            ) : props.data?.length === 0 ? (
+              <SelectOption
+                isChecked={false}
+                setValue={handleItem}
+                checkBox={props.checkBox || false}
+                children={["گزینه ای یافت نشد"]}
+                value={""}
+              />
+            ) : (
+              <>
+                {!props.search && (
+                  <SelectOption
+                    onChange={props.onChange}
+                    isChecked={
+                      props.multiple ? undefined : value.includes("انتخاب کنید")
+                    }
+                    setValue={handleItem}
+                    checkBox={false}
+                    children={"انتخاب کنید"}
+                    value={"انتخاب کنید"}
+                  />
                 )}
+                
+                {props.data?.map((item) => (
+                  <SelectOption
+                    onChange={props.onChange}
+                    isChecked={selectAll || value.includes(item)}
+                    setValue={handleItem}
+                    checkBox={props.checkBox || false}
+                    key={item}
+                    children={item}
+                    value={item}
+                  />
+                ))}
               </>
             )}
           </div>
         )}
       </div>
       {props.multiple && (
-        <div className="w-10/12 z-20 gap-2 grid grid-cols-3  mt-1">
+        <div className="w-10/12 z-20 gap-2 absolute bg-gray-100 top-10 overflow-hidden pr-6 right-2 flex items-center ">
           {value &&
             value.map(
               (item) =>
                 item !== "انتخاب کنید" && (
                   <div
                     key={item}
-                    className="p-1 bg-gray-100 rounded-lg  text-xs text-gray-400 flex items-center justify-between"
+                    className=" bg-gray-100 whitespace-nowrap rounded-lg  text-xs text-gray-400 flex gap-1 items-center justify-between"
                   >
                     {item}
-                    <button onClick={() => handleRemove(item)}>
+                    <button
+                      onClick={() => {
+                        handleRemove(item);
+                      }}
+                    >
                       <IoMdClose />
                     </button>
                   </div>

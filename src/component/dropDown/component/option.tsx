@@ -31,7 +31,7 @@ const SelectOption = ({
         setValue(value);
         onChange && onChange(value === "انتخاب کنید" ? undefined :  value);
       }}
-      className="flex items-center justify-between gap-2 hover:bg-gray-400 mb-4 px-3 py-1 hover:text-white rounded-md cursor-pointer"
+      className="flex flex-row-reverse items-center justify-end gap-2 hover:bg-gray-400 mb-4 px-3 py-1 hover:text-white rounded-md cursor-pointer"
     >
       {checkBox ?  (
         <>
@@ -39,7 +39,7 @@ const SelectOption = ({
           <input
             checked={isChecked}
             type="checkbox"
-            className="checkbox"
+            className="checkbox checkbox-xs"
             id={value}
             onChange={() => setValue(value)}
           />

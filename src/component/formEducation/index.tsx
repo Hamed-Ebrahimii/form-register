@@ -38,7 +38,7 @@ const FormEducation = () => {
 
   const {data} = useQuery({
     queryKey : [search.education],
-    queryFn : getAllEducation
+    queryFn : ()=> getAllEducation(search.education)
   })
   return (
     <form

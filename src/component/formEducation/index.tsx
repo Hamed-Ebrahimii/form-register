@@ -2,21 +2,29 @@ import { Controller, useForm } from "react-hook-form";
 import DropDown from "../dropDown";
 import Input from "../form/component/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EducationForm, EducationFormType } from "../../validation/registerFormValidation";
+import {
+  EducationForm,
+  EducationFormType,
+} from "../../validation/registerFormValidation";
 import { parsNumberToString } from "../../utils/parsNumberToString";
 import { useState } from "react";
 import { ISearch } from "../dropDown/type";
+import { useQuery } from "@tanstack/react-query";
+import { getAllEducation } from "../../api/getAllEducation";
 const FormEducation = () => {
-  const {control , formState : {errors} , handleSubmit} = useForm<EducationFormType>({
-    mode : 'all',
-    resolver : zodResolver(EducationForm)
-  })
-  const onSubmit = (data : EducationFormType) =>{
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<EducationFormType>({
+    mode: "all",
+    resolver: zodResolver(EducationForm),
+  });
+  const onSubmit = (data: EducationFormType) => {
     console.log(data);
-    
-  }
-  
-  const [convertNumberToString , setConvertNumberToString] = useState('')
+  };
+
+  const [convertNumberToString, setConvertNumberToString] = useState("");
   const [search, setSearch] = useState<ISearch>({
     city: "",
     company: "",
@@ -25,144 +33,147 @@ const FormEducation = () => {
     website: "",
     job: "",
     education: "",
-    militaryService : ''
+    militaryService: "",
   });
+
+  const {data} = useQuery({
+    queryKey : [search.education],
+    queryFn : getAllEducation
+  })
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className=" w-full rounded-xl px-8 py-12  shadow-sm ">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className=" w-full rounded-xl px-8 py-12  shadow-sm "
+    >
       <section className="w-full grid grid-cols-4 gap-5 mt-6">
         <Controller
-        name='degreeOfEducation'
-        control={control}
-         render={({field})=>(
-          <DropDown
-          {...field}
-          checkBox
-          multiple
-          search={true}
-          error={errors.degreeOfEducation?.message}
-            fnData={() => {}}
-            lable="آخرین مدرک تحصیلی"
-            requier
-            name="education"
-            data={['دیپلم' , 'فوق دیپلم' , 'لیسانس' , 'فوق لیسانس' , 'دکترا' ]}
-            setSearchValue={setSearch}
-            searchData={search}
-            placeholder="انتخاب کنید"
-            selectAll
-            
-            
-          />
-         )}
+          name="degreeOfEducation"
+          control={control}
+          render={({ field }) => (
+            <DropDown
+              {...field}
+              checkBox
+              multiple
+              search={true}
+              error={errors.degreeOfEducation?.message}
+              fnData={() => {}}
+              lable="آخرین مدرک تحصیلی"
+              requier
+              name="education"
+              data={data?.data.map(item => item.name)}
+              setSearchValue={setSearch}
+              searchData={search}
+              placeholder="انتخاب کنید"
+              selectAll
+            />
+          )}
         />
         <Controller
-        name='average'
-        control={control}
-         render={({field})=>(
-           <Input
-            onChange={(e)=>{
-              field.onChange(+e.target.value)
-              setConvertNumberToString(parsNumberToString(+e.target.value));
-              console.log(+e.target.value);
-              
-            }}
-            error={errors.average?.message}
-             htmlFor=""
-             lable="معدل اخرین مدرک خود"
-             requier
-             min={0}
-             max={20}
-             type="number"
-             placeholder="معدل خود را وارد کنید"
-             id="family"
-           />
-         )}
+          name="average"
+          control={control}
+          render={({ field }) => (
+            <Input
+              onChange={(e) => {
+                field.onChange(+e.target.value);
+                setConvertNumberToString(parsNumberToString(+e.target.value));
+              }}
+              error={errors.average?.message}
+              htmlFor=""
+              lable="معدل اخرین مدرک خود"
+              requier
+              min={0}
+              max={20}
+              type="number"
+              placeholder="معدل خود را وارد کنید"
+              id="family"
+            />
+          )}
         />
         <Controller
-        name='dateOfObtainingDegree'
-        control={control}
-         render={({field})=>(
-           <Input
-           {...field}
-           error={errors.dateOfObtainingDegree?.message}
-             htmlFor=""
-             lable="تاریخ اخذ مدرک"
-             requier
-             placeholder="تاریخ اخذ مدرک خود را وارد کنید"
-             type="date"
-             id=""
-           />
-         )}
+          name="dateOfObtainingDegree"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              error={errors.dateOfObtainingDegree?.message}
+              htmlFor=""
+              lable="تاریخ اخذ مدرک"
+              requier
+              placeholder="تاریخ اخذ مدرک خود را وارد کنید"
+              type="date"
+              id=""
+            />
+          )}
         />
         <Controller
-        name='averageString'
-        control={control}
-         render={({field})=>(
-           <Input
-           {...field}
-           error={errors.averageString?.message}
-             htmlFor="code"
-             lable="معدل کل به حروف"
-             requier
-             value={convertNumberToString}
-             readOnly
-             placeholder="معدل  خود را وارد کنید"
-             type="text"
-             id="code"
-           />
-         )}
+          name="averageString"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              error={errors.averageString?.message}
+              htmlFor="code"
+              lable="معدل کل به حروف"
+              requier
+              value={convertNumberToString}
+              readOnly
+              placeholder="معدل  خود را وارد کنید"
+              type="text"
+              id="code"
+            />
+          )}
         />
         <Controller
-        name='degreeSeries'
-        control={control}
-         render={({field})=>(
-           <Input
-            {...field}
-            error={errors.degreeSeries?.message}
-             htmlFor="fatherName"
-             lable="سریال اخرین مدرک تحصیلی"
-             requier
-             placeholder="سریال اخرین مدرک تحصیلی خود را وارد کنید"
-             id="fatherName"
-           />
-         )}
+          name="degreeSeries"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              error={errors.degreeSeries?.message}
+              htmlFor="fatherName"
+              lable="سریال اخرین مدرک تحصیلی"
+              requier
+              placeholder="سریال اخرین مدرک تحصیلی خود را وارد کنید"
+              id="fatherName"
+            />
+          )}
         />
         <Controller
-        name='degreePhoto'
-        control={control}
-         render={({field})=>(
-           <Input
-           onChange={(e) => {
-            const file = Array.from(e.target.files || []);
-            field.onChange(file[0]);
-          }}
-          error={errors.degreePhoto?.message}
-             lable="فایل اسکن شده مدرک تحصیلی"
-             htmlFor="certificate"
-             id="certificate"
-             type="file"
-             requier
-           />
-         )}
+          name="degreePhoto"
+          control={control}
+          render={({ field }) => (
+            <Input
+              onChange={(e) => {
+                const file = Array.from(e.target.files || []);
+                field.onChange(file[0]);
+              }}
+              error={errors.degreePhoto?.message}
+              lable="فایل اسکن شده مدرک تحصیلی"
+              htmlFor="certificate"
+              id="certificate"
+              type="file"
+              requier
+            />
+          )}
         />
-         <Controller
-        name='studentPhoto'
-        control={control}
-         render={({field})=>(
-          <Input
-          error={errors.studentPhoto?.message}
-          onChange={(e) => {
-           const file = Array.from(e.target.files || []);
-           field.onChange(file[0]);
-         }}
-           lable="تصویر پرسنلی دانشجو"
-           htmlFor="certificate"
-           id="certificate"
-           type="file"
-           requier
-         />
-         )}
+        <Controller
+          name="studentPhoto"
+          control={control}
+          render={({ field }) => (
+            <Input
+              error={errors.studentPhoto?.message}
+              onChange={(e) => {
+                const file = Array.from(e.target.files || []);
+                field.onChange(file[0]);
+              }}
+              lable="تصویر پرسنلی دانشجو"
+              htmlFor="certificate"
+              id="certificate"
+              type="file"
+              requier
+            />
+          )}
         />
-       
       </section>
       <section className="w-full grid grid-cols-4 gap-5 mt-6 items-start">
         <button

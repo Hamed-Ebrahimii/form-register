@@ -11,7 +11,7 @@ const DropDown = (props: Iprops) => {
   const [showDrop, setShowDrop] = useState(false);
   const [value, setValue] = useState<string[]>([]);
   const [selected, setSelected] = useState(props.placeholder || "");
-  const [data, setData] = useState<string[]>(props.data || []);
+ 
   const handleItem = (data: string) => {
     setShowDrop(false);
     const response = value.findIndex((item) => item === data);
@@ -61,17 +61,17 @@ const DropDown = (props: Iprops) => {
     }
     animeRotate();
   }, [showDrop]);
-  const handleSearch = (data: string[], value: string) => {
-    return data.filter((item) => item.includes(value));
-  };
+ 
   useEffect(()=>{
     if (selectAll) {
-      setValue(data)
+      setValue(props.data || [])
       setSelected('')
     }
     else {
       setValue([])
     }
+    console.log(props.data);
+    
   } , [selectAll])
   return (
     <div
@@ -115,13 +115,13 @@ const DropDown = (props: Iprops) => {
                   newState[props.name] = e;
                   props.setSearchValue(newState);
                   setSelectAll(false);
-                  setData(handleSearch(props.data || [""], e));
+                 
                 }}
               />
             )}
             {props.children ? (
               props.children
-            ) : data?.length === 0 ? (
+            ) : props.data?.length === 0 ? (
               <SelectOption
                 isChecked={false}
                 setValue={handleItem}
@@ -168,9 +168,9 @@ const DropDown = (props: Iprops) => {
                     value={"انتخاب کردن همه"}
                   />
                 )}
-                {data?.map(
+                {props.data?.map(
                   (item) =>
-                    item !== "انتخاب کنید" && (
+                     (
                       <SelectOption
                         onChange={props.onChange}
                         isChecked={selectAll || value.includes(item)}

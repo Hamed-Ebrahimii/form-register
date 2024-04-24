@@ -39,7 +39,7 @@ const SelectOption = ({
           <input
             checked={isChecked}
             type="checkbox"
-            className="checkbox checkbox-xs"
+            className="checkbox checkbox-sm"
             id={value}
             onChange={() => setValue(value)}
           />

@@ -11,6 +11,9 @@ import { useState } from "react";
 import { ISearch } from "../dropDown/type";
 import { useQuery } from "@tanstack/react-query";
 import { getAllEducation } from "../../api/getAllEducation";
+import { FaRegFileAlt } from "react-icons/fa";
+import {  Tooltip } from "@mui/material";
+import Modal from "../modal";
 const FormEducation = () => {
   const {
     control,
@@ -35,7 +38,7 @@ const FormEducation = () => {
     education: "",
     militaryService: "",
   });
-
+  const [open , handleOpen] = useState(false)
   const {data} = useQuery({
     queryKey : [search.education],
     queryFn : ()=> getAllEducation(search.education)
@@ -46,6 +49,7 @@ const FormEducation = () => {
       className=" w-full rounded-xl px-8 py-12  shadow-sm "
     >
       <section className="w-full grid grid-cols-4 gap-5 mt-6">
+        <div className="flex items-end justify-between gap-4">
         <Controller
           name="degreeOfEducation"
           control={control}
@@ -68,6 +72,17 @@ const FormEducation = () => {
             />
           )}
         />
+        <Tooltip title='نمایش موارد انتخاب شده ' placement="top">
+        <button className="mb-2" type="button">
+        <FaRegFileAlt className="text-lg" />
+        </button>
+        </Tooltip>
+        {/* <Modal>
+          <div className="w-1/4 py-6 bg-white rounded-xl">
+
+          </div>
+        </Modal> */}
+        </div>
         <Controller
           name="average"
           control={control}

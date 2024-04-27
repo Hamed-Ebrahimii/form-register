@@ -160,6 +160,7 @@ const FormEducation = () => {
               htmlFor="certificate"
               id="certificate"
               type="file"
+              accept="image"
               requier
             />
           )}
@@ -178,6 +179,7 @@ const FormEducation = () => {
               htmlFor="certificate"
               id="certificate"
               type="file"
+              accept="music"
               requier
             />
           )}

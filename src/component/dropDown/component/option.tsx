@@ -1,4 +1,5 @@
 import { ReactNode, useEffect } from "react";
+import { useOs } from '@mantine/hooks';
 interface Iprops {
   checkBox: boolean;
   value: string;
@@ -16,10 +17,13 @@ const SelectOption = ({
   isChecked,
   onChange,
 }: Iprops) => {
+  const os = useOs()
   useEffect(() => {
     if (isChecked) {
       onChange && onChange(value === "انتخاب کنید" ? undefined : value);
+      
     }
+    console.log(os);
   }, [isChecked]);
   return (
     <div

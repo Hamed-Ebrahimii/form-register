@@ -9,9 +9,11 @@ import {
 import { parsNumberToString } from "../../utils/parsNumberToString";
 import { useState } from "react";
 import { ISearch } from "../dropDown/type";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getAllEducation } from "../../api/getAllEducation";
 import { setStudent, student } from "../../model/student";
+import { httpServic } from "../../api/httpServic";
+import axios from "axios";
 const FormEducation = () => {
   const {
     control,
@@ -29,7 +31,6 @@ const FormEducation = () => {
    
 
   };
-
   const [convertNumberToString, setConvertNumberToString] = useState("");
   const [search, setSearch] = useState<ISearch>({
     city: "",
@@ -41,9 +42,16 @@ const FormEducation = () => {
     education: "",
     militaryService: "",
   });
+
   const {data} = useQuery({
     queryKey : [search.education],
     queryFn : ()=> getAllEducation(search.education)
+  })
+  const {mutate} = useMutation({
+    mutationFn : (file : FormData) => axios('http://localhost:3000/student' , {
+      method : 'post',
+      data : file
+    })
   })
   return (
     <form
@@ -154,6 +162,7 @@ const FormEducation = () => {
               onChange={(e) => {
                 const file = Array.from(e.target.files || []);
                 field.onChange(file[0]);
+                const formdata = new formdata()
               }}
               error={errors.degreePhoto?.message}
               lable="فایل اسکن شده مدرک تحصیلی"
@@ -161,6 +170,8 @@ const FormEducation = () => {
               id="certificate"
               type="file"
               accept="image"
+              uploadWidthChange
+              fildeState={!errors.degreePhoto?.message}
               requier
             />
           )}

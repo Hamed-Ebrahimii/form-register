@@ -1,5 +1,5 @@
-import {  MutationFunction, useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import {  MutationFunction } from "@tanstack/react-query";
+
 
 import { DetailedHTMLProps } from "react";
 interface Iprops
@@ -14,7 +14,7 @@ interface Iprops
   accept? : 'image' | 'video' | 'music' | 'pdf'  | 'all',
   uploadWidthChange? : boolean,
   fnUpload? : (file : File) => MutationFunction<unknown, File>
-  fildeState? : boolean
+  isPending? : boolean
 }
 const acceptType = {
   image : 'image/*',
@@ -25,12 +25,6 @@ const acceptType = {
 }
 const Input = (props: Iprops) => {
 
-  const {mutate , isPending} = useMutation({
-    mutationFn : (data : FormData) => axios('/', {
-      method : 'post',
-      data
-    })
-  })
   return (
     <div className="w-full flex flex-col items-start justify-center self-start gap-2 relative">
       <label
@@ -48,9 +42,8 @@ const Input = (props: Iprops) => {
         onChange={(e)=>{
           if(e.target.files && props.uploadWidthChange){
            props.onChange && props.onChange(e)
-              const formdata = new FormData()
-              formdata.append(e.target.files[0].name , e.target.files[0])
-              if(props.fildeState) mutate(formdata)
+              
+             
           }
         }}
         accept={acceptType[props.accept || 'all']}
@@ -66,7 +59,7 @@ const Input = (props: Iprops) => {
       />
       }
       {
-        isPending && <progress className="progress w-56"></progress>
+        props.isPending && <progress className="progress w-56"></progress>
       }
       {
         props.error && <p className="text-xs text-red-400 font-medium">{props.error}</p>

@@ -7,12 +7,12 @@ import {
   EducationFormType,
 } from "../../validation/registerFormValidation";
 import { parsNumberToString } from "../../utils/parsNumberToString";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ISearch } from "../dropDown/type";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getAllEducation } from "../../api/getAllEducation";
 import { setStudent, student } from "../../model/student";
-import { httpServic } from "../../api/httpServic";
+
 import axios from "axios";
 const FormEducation = () => {
   const {
@@ -47,12 +47,13 @@ const FormEducation = () => {
     queryKey : [search.education],
     queryFn : ()=> getAllEducation(search.education)
   })
-  const {mutate} = useMutation({
+  const {mutate , isPending} = useMutation({
     mutationFn : (file : FormData) => axios('http://localhost:3000/student' , {
       method : 'post',
       data : file
     })
   })
+  
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -157,12 +158,15 @@ const FormEducation = () => {
         <Controller
           name="degreePhoto"
           control={control}
-          render={({ field }) => (
+          render={({ field  , fieldState}) => (
             <Input
               onChange={(e) => {
                 const file = Array.from(e.target.files || []);
                 field.onChange(file[0]);
-                const formdata = new formdata()
+                const formdata = new FormData()
+                formdata.append(file[0].name , file[0])
+                console.log(fieldState.error?.message);
+                fieldState?.error?.message !=='' && mutate(formdata)
               }}
               error={errors.degreePhoto?.message}
               lable="فایل اسکن شده مدرک تحصیلی"
@@ -171,7 +175,7 @@ const FormEducation = () => {
               type="file"
               accept="image"
               uploadWidthChange
-              fildeState={!errors.degreePhoto?.message}
+              isPending={isPending}
               requier
             />
           )}

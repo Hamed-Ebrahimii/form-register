@@ -5,14 +5,14 @@ import { ISearch, Iprops } from "./type";
 import anime from "animejs/lib/anime.es.js";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
-import { useClickOutside } from '@mantine/hooks';
+import { useClickOutside } from "@mantine/hooks";
 const DropDown = (props: Iprops) => {
   const [selectAll, setSelectAll] = useState(false);
   const input = useRef<HTMLInputElement>(null);
   const [showDrop, setShowDrop] = useState(false);
   const [value, setValue] = useState<string[]>([]);
   const [selected, setSelected] = useState(props.placeholder || "");
-  const ref= useClickOutside(()=>setShowDrop(false))
+  const ref = useClickOutside(() => setShowDrop(false));
   const handleItem = (data: string) => {
     const response = value.findIndex((item) => item === data);
     if (props.multiple) {
@@ -59,7 +59,6 @@ const DropDown = (props: Iprops) => {
     }
     animeRotate();
   }, [showDrop]);
-
   useEffect(() => {
     if (selectAll) {
       setValue(props.data || []);
@@ -68,18 +67,12 @@ const DropDown = (props: Iprops) => {
       setValue([]);
     }
   }, [selectAll]);
-  useEffect(() => {
-    if (props.data?.length === value.length) {
-      setSelectAll(true);
-    }
-  }, [props.data]);
 
   return (
     <div
-    ref={ref}
-    id="drop"
+      ref={ref}
+      id="drop"
       className={"flex flex-col w-full gap-2 bg-inherit rounded-lg  relative "}
-      
     >
       <label
         className="text-sm text-gray-500 font-medium"
@@ -95,7 +88,6 @@ const DropDown = (props: Iprops) => {
       >
         <button
           type="button"
-       
           className={`drop bg-inherit outline-none w-full text-ellipsis overflow-hidden whitespace-nowrap text-xs   rounded-full focus:border-blue-300 text-gray-400  font-bold flex items-center justify-between ${
             props.error ? "border-red-400" : "border-gray-200 "
           }`}
@@ -112,23 +104,47 @@ const DropDown = (props: Iprops) => {
         </button>
         {showDrop && (
           <div className="drop opacity-0 bg-gray-100 border px-3  rounded-lg mt-5 max-h-40 py-2 overflow-auto absolute z-40 top-11 w-full">
-           <div className="w-full flex items-center gap-4">
-                <div className="w-full">
+            <div className="w-full flex items-center gap-4">
+              <div className="w-full">
+                <div className="py-1 mb-2 border-b flex">
+                {props.selectAll && (
+                  <SelectOption
+                    onChange={props.onChange}
+                    isChecked={selectAll}
+                    setValue={(e) => {
+                      
+                      setSelectAll(!selectAll)
+                      console.log(selectAll);
+                      setValue([...value , e])
+                      if (selectAll) {
+                        setValue(props.data || []);
+                      }
+                      if (selectAll === false) {
+                        setValue([]);
+                      }
+                    }}
+                    checkBox={true}
+                    children={" همه"}
+                    value={" همه"}
+                  />
+                )}
                 {props.search && (
-              <Search
-                ref={input}
-                value={(props.searchData && props.searchData[props.name]) || ""}
-                onChange={(e) => {
-                  newState[props.name] = e;
-                  props.setSearchValue(newState);
-                  setSelectAll(false);
-                }}
-              />
-            )}
-          
+                  <Search
+                    ref={input}
+                    value={
+                      (props.searchData && props.searchData[props.name]) || ""
+                    }
+                    onChange={(e) => {
+                      newState[props.name] = e;
+                      props.setSearchValue(newState);
+                      setSelectAll(false);
+                    }}
+                  />
+                )}
                 </div>
                 
-           </div>
+              </div>
+            </div>
             {props.children ? (
               props.children
             ) : props.data?.length === 0 ? (
@@ -153,32 +169,7 @@ const DropDown = (props: Iprops) => {
                     value={"انتخاب کنید"}
                   />
                 )}
-                {props.selectAll && (
-                  <SelectOption
-                    onChange={() => {
-                      setSelectAll(!selectAll);
-                      if (selectAll) {
-                        setValue(props.data || []);
-                      }
-                      if (selectAll === false) {
-                        setValue([]);
-                      }
-                    }}
-                    isChecked={selectAll}
-                    setValue={(e) => {
-                    
-                      if (selectAll) {
-                        setValue(props.data || []);
-                      }
-                      if (selectAll === false) {
-                        setValue([]);
-                      }
-                    }}
-                    checkBox={true}
-                    children={"انتخاب کردن همه"}
-                    value={"انتخاب کردن همه"}
-                  />
-                )}
+                
                 {props.data?.map((item) => (
                   <SelectOption
                     onChange={props.onChange}

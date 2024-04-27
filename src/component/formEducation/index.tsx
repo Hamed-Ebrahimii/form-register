@@ -11,17 +11,23 @@ import { useState } from "react";
 import { ISearch } from "../dropDown/type";
 import { useQuery } from "@tanstack/react-query";
 import { getAllEducation } from "../../api/getAllEducation";
+import { setStudent, student } from "../../model/student";
 const FormEducation = () => {
   const {
     control,
     formState: { errors },
-    handleSubmit,
+    handleSubmit
+    , setValue
   } = useForm<EducationFormType>({
     mode: "all",
     resolver: zodResolver(EducationForm),
   });
   const onSubmit = (data: EducationFormType) => {
-    console.log(data);
+    const newStudent = student
+    setStudent({...newStudent , ...data})
+    console.log(student);
+   
+
   };
 
   const [convertNumberToString, setConvertNumberToString] = useState("");
@@ -77,6 +83,7 @@ const FormEducation = () => {
               onChange={(e) => {
                 field.onChange(+e.target.value);
                 setConvertNumberToString(parsNumberToString(+e.target.value));
+                setValue("averageString" , convertNumberToString)
               }}
               error={errors.average?.message}
               htmlFor=""

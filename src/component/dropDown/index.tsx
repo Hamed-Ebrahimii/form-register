@@ -21,6 +21,7 @@ const DropDown = (props: Iprops) => {
   const handleItem = (data: string) => {
     const response = value.findIndex((item) => item === data);
     setSelectAll(false);
+    setShowDrop(false)
     if (props.multiple) {
       if (response === -1) {
         setValue([...value, data]);
@@ -149,13 +150,15 @@ const DropDown = (props: Iprops) => {
                         }}
                       />
                     )}
-                    <Tooltip title="نمایش موارد انتخاب شده" placement="top">
-                    <button type="button" onClick={()=> setShowSelected(!showSelected)}>
                     {
-                      !showSelected ? <VisibilityIcon/> : <VisibilityOffIcon/>
+                      props.multiple && <Tooltip title="نمایش موارد انتخاب شده" placement="top">
+                      <button type="button" onClick={()=> setShowSelected(!showSelected)}>
+                      {
+                        !showSelected ? <VisibilityIcon/> : <VisibilityOffIcon/>
+                      }
+                      </button>
+                      </Tooltip>
                     }
-                    </button>
-                    </Tooltip>
                   </div>
                 </div>
               </div>

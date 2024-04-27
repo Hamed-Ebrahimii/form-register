@@ -1,14 +1,10 @@
-import { useClickOutside } from "@mantine/hooks";
 import { IoMdClose } from "react-icons/io";
-
 interface Iprosp {
   onDelete: (value: string) => void;
   lable: string;
   type: "delete" | "defulte";
-  
 }
 const Chip = ({ lable, onDelete, type }: Iprosp) => {
-    // const ref = useClickOutside(()=> handleClose(false))
   return (
     <div className="whitespace-nowrap text-ellipsis bg-gray-100 border z-30 px-3 py-1 rounded-md flex items-center justify-start gap-3" >
       {type !== "defulte" && (

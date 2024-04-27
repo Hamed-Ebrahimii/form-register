@@ -8,6 +8,8 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { profileFormValidation, profileFormValidationType } from "../../validation/registerFormValidation";
+import { setStudent, student } from "../../model/student";
+import { useNavigate } from "react-router-dom";
 const Form = () => {
   const [search, setSearch] = useState<ISearch>({
     city: "",
@@ -24,16 +26,19 @@ const Form = () => {
     queryKey: [search.city],
     queryFn: () => getAllCity(search.city),
   });
-
+  const navigate = useNavigate()
   const [showAccordion, setShowAccordion] = useState(false);
-  const {control , formState : {errors} , handleSubmit} = useForm<profileFormValidationType>({
+  const {control , formState : {errors} , handleSubmit } = useForm<profileFormValidationType>({
     mode : 'all',
     resolver : zodResolver(profileFormValidation)
     
   })
   const onSubmit = (data : profileFormValidationType) =>{
-        console.log(data);
-
+        const newStudent = JSON.parse(JSON.stringify(student))
+        setStudent({...newStudent , ...data})
+        navigate('/education');
+      console.log(student);
+      
   }
   return (
     <form className=" w-full rounded-xl px-8 py-12 " onSubmit={handleSubmit(onSubmit)}>
@@ -116,6 +121,7 @@ const Form = () => {
             />
           )}      
         />
+        <div>
         <Controller
           name="militaryService"
           control={control}
@@ -134,6 +140,7 @@ const Form = () => {
             />
           )}      
         />
+        </div>
         <div className="col-span-2 col-start-3 row-start-2">
           <div className="w-full flex flex-col items-start justify-center gap-2">
             <label

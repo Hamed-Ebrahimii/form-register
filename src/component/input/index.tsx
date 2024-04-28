@@ -1,11 +1,10 @@
-import { Avatar } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
-import { useState } from "react";
+import {  useState } from "react";
+import { CiFileOff } from "react-icons/ci";
 import { InputProps } from "./type";
 import Modal from "../modal";
-import { IoMdCloseCircleOutline } from "react-icons/io";
-import { FaRegTrashCan } from "react-icons/fa6";
+import { useClickOutside } from "@mantine/hooks";
 interface Accept {
   image: "image/*";
   video: "video/mp4,video/x-m4v,video/*";
@@ -23,7 +22,8 @@ const acceptType: Accept = {
 type AcceptInput = "image" | "video" | "music" | "pdf" | "all";
 const Input = (props: InputProps) => {
   const [file, setFile] = useState<File[]>([]);
-  const [showImagePreview, setShowImagePreview] = useState(false);
+
+  const [showManagerFile, setShowManagerFile] = useState(false);
   const { mutate, isPending } = useMutation({
     mutationFn: (file: FormData) =>
       axios<AxiosResponse>("http://localhost:3000/student", {
@@ -39,9 +39,16 @@ const Input = (props: InputProps) => {
     });
     return checked;
   }
-  const handleRemoveFile = (item: File) => {
-    setFile(file.filter((value) => value.name !== item.name));
-  };
+  // const handleRemoveFile = (item: File) => {
+  //   setFile(file.filter((value) => value.name !== item.name));
+  // };
+  const handleCloseModal = () =>{
+    setShowManagerFile(false)
+    console.log('close');
+    
+  }
+  const refModal = useClickOutside(()=> handleCloseModal)
+ 
   return (
     <div className="w-full flex flex-col items-start justify-center self-start gap-2 relative">
       <label
@@ -57,6 +64,7 @@ const Input = (props: InputProps) => {
             <div className="w-full flex items-center px-2 py-0.5 gap-4 border bg-gray-100 rounded-full">
               <button
                 type="button"
+                onClick={()=> setShowManagerFile(true)}
                 className="btn bg-blue-500 btn-sm text-white"
               >
                 Choose Files
@@ -106,49 +114,17 @@ const Input = (props: InputProps) => {
       {props.error && (
         <p className="text-xs text-red-400 font-medium">{props.error}</p>
       )}
-      <div className="w-full flex items-center gap-3">
-        {props.type === "file" &&
-          file.map((item) => {
-            return (
-              <div className="" key={item.name}>
-                <Avatar
-                  onClick={() => setShowImagePreview(true)}
-                  variant="rounded"
-                  className="cursor-pointer"
-                >
-                  <img src={URL.createObjectURL(item)} alt="" />
-                </Avatar>
-                {showImagePreview && (
-                  <Modal>
-                    <div
-                      className="w-1/4 bg-white p-5 rounded-lg space-y-4"
-                      onClick={() => setShowImagePreview(false)}
-                    >
-                      <button type="button">
-                        <IoMdCloseCircleOutline />
-                      </button>
-                      <img
-                        src={URL.createObjectURL(item)}
-                        alt=""
-                        className="size-32 rounded-md mx-auto"
-                      />
-                      <div className="flex items-center justify-center">
-                        <button
-                          type="button"
-                          className="btn btn-sm btn-error text-white  rounded"
-                          onClick={() => handleRemoveFile(item)}
-                        >
-                          حذف فایل
-                          <FaRegTrashCan />
-                        </button>
-                      </div>
-                    </div>
-                  </Modal>
-                )}
-              </div>
-            );
-          })}
-      </div>
+      
+      {
+        showManagerFile && <Modal ref={refModal} >
+          <div  className="w-1/2 bg-white rounded-lg px-3 py-2 grid grid-cols-3">
+            <div className="col-span-2 border-l justify-center">
+            <CiFileOff />
+            </div>
+
+          </div>
+        </Modal>
+      }
     </div>
   );
 };

@@ -18,7 +18,7 @@ const FormEducation = () => {
     formState: { errors },
     handleSubmit,
     setValue,
-    setError
+    setError,
   } = useForm<EducationFormType>({
     mode: "all",
     resolver: zodResolver(EducationForm),
@@ -43,9 +43,9 @@ const FormEducation = () => {
     queryKey: [search.education],
     queryFn: () => getAllEducation(search.education),
   });
-  const setErrorDegreePhoto = (error : string) =>{
-    setError('degreePhoto' , {message : error})
-  }
+  const setErrorDegreePhoto = (error: string) => {
+    setError("degreePhoto", { message: error });
+  };
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -184,7 +184,7 @@ const FormEducation = () => {
               htmlFor="certificate"
               id="certificate"
               type="file"
-              accept="music"
+              accept="image"
               requier
             />
           )}

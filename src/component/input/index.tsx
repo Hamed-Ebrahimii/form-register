@@ -6,13 +6,21 @@ import { InputProps } from "./type";
 import Modal from "../modal";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { FaRegTrashCan } from "react-icons/fa6";
-const acceptType = {
+interface Accept {
+  image: "image/*";
+  video: "video/mp4,video/x-m4v,video/*";
+  music: "audio/mp3";
+  pdf: "application/pdf";
+  all: "";
+}
+const acceptType: Accept = {
   image: "image/*",
   video: "video/mp4,video/x-m4v,video/*",
   music: "audio/mp3",
   pdf: "application/pdf",
   all: "",
 };
+type AcceptInput = "image" | "video" | "music" | "pdf" | "all";
 const Input = (props: InputProps) => {
   const [file, setFile] = useState<File[]>([]);
   const [showImagePreview, setShowImagePreview] = useState(false);
@@ -23,20 +31,13 @@ const Input = (props: InputProps) => {
         data: file,
       }),
   });
-  function isImage(filename: File) {
-    const type = filename.type;
-    console.log(type);
-
-    switch (type.toLowerCase()) {
-      case "image/jpg":
-      case "image/gif":
-      case "image/bmp":
-      case "image/png":
-      case "image/jpeg":
-        //etc
-        return true;
-    }
-    return false;
+  function checkType(files: FileList, type: AcceptInput) {
+    const listFile = Array.from(files);
+    let checked: boolean = true;
+    listFile.map((item) => {
+      checked = item.type.includes(acceptType[type]);
+    });
+    return checked;
   }
   const handleRemoveFile = (item: File) => {
     setFile(file.filter((value) => value.name !== item.name));
@@ -52,34 +53,46 @@ const Input = (props: InputProps) => {
       </label>
       {props.type === "file" ? (
         <>
-          <input
-            type="file"
-            multiple={props.multiple}
-            onChange={(e) => {
-              if (e.target.files!.length > props.numberFile!) {
-                props.setError &&
-                  props?.setError(
-                    `تعداد فایل های انتخاب شده بیشتر از ${props.numberFile} هست`
-                  );
-                return;
-              }
-              props.onChange && props.onChange(e);
-              if (
-                e.target.files &&
-                props.uploadWidthChange &&
-                isImage(e.target.files[0])
-              ) {
-                const formdata = new FormData();
-                const files = Array.from(e.target.files);
-                setFile([...file, ...files]);
-                mutate(formdata);
-              }
-            }}
-            accept={acceptType[props.accept || "all"]}
-            className={`border w-full bg-gray-100  rounded-full py-1  outline-none placeholder:text-gray-400 text-gray-500 placeholder:text-xs placeholder:font-semibold file:mr-1 file:rounded-md file:border-0 file:ml-4  file:bg-blue-500 file:py-1 file:px-4 file:text-sm file:font-semibold file:text-white hover:file:bg-primary-700 ${
-              props.type === "file" ? "px-1" : "px-5"
-            } ${props.error ? "border-red-400" : "border-gray-200"}`}
-          />
+          {props.multiple ? (
+            <div className="w-full flex items-center px-2 py-0.5 gap-4 border bg-gray-100 rounded-full">
+              <button
+                type="button"
+                className="btn bg-blue-500 btn-sm text-white"
+              >
+                Choose Files
+              </button>
+              <p className="text-gray-500 font-medium">No file choosen</p>
+            </div>
+          ) : (
+            <input
+              type="file"
+              multiple={props.multiple}
+              onChange={(e) => {
+                if (e.target.files!.length > props.numberFile!) {
+                  props.setError &&
+                    props?.setError(
+                      `تعداد فایل های انتخاب شده بیشتر از ${props.numberFile} هست`
+                    );
+                  return;
+                }
+                props.onChange && props.onChange(e);
+                if (
+                  e.target.files &&
+                  props.uploadWidthChange &&
+                  checkType(e.target.files, props.accept || "all")
+                ) {
+                  const formdata = new FormData();
+                  const files = Array.from(e.target.files);
+                  setFile([...file, ...files]);
+                  mutate(formdata);
+                }
+              }}
+              accept={acceptType[props.accept || "all"]}
+              className={`border w-full bg-gray-100  rounded-full py-1  outline-none placeholder:text-gray-400 text-gray-500 placeholder:text-xs placeholder:font-semibold file:mr-1 file:rounded-md file:border-0 file:ml-4  file:bg-blue-500 file:py-1 file:px-4 file:text-sm file:font-semibold file:text-white hover:file:bg-primary-700 ${
+                props.type === "file" ? "px-1" : "px-5"
+              } ${props.error ? "border-red-400" : "border-gray-200"}`}
+            />
+          )}
         </>
       ) : (
         <input

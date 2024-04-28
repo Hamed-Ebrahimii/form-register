@@ -1,10 +1,11 @@
 import { Avatar } from "@mui/material";
-import {  useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
-
-import {  useState } from "react";
+import { useState } from "react";
 import { InputProps } from "./type";
-
+import Modal from "../modal";
+import { IoMdCloseCircleOutline } from "react-icons/io";
+import { FaRegTrashCan } from "react-icons/fa6";
 const acceptType = {
   image: "image/*",
   video: "video/mp4,video/x-m4v,video/*",
@@ -13,7 +14,8 @@ const acceptType = {
   all: "",
 };
 const Input = (props: InputProps) => {
-  const [file] = useState<string[]>([]);
+  const [file, setFile] = useState<File[]>([]);
+  const [showImagePreview, setShowImagePreview] = useState(false);
   const { mutate, isPending } = useMutation({
     mutationFn: (file: FormData) =>
       axios<AxiosResponse>("http://localhost:3000/student", {
@@ -36,6 +38,9 @@ const Input = (props: InputProps) => {
     }
     return false;
   }
+  const handleRemoveFile = (item: File) => {
+    setFile(file.filter((value) => value.name !== item.name));
+  };
   return (
     <div className="w-full flex flex-col items-start justify-center self-start gap-2 relative">
       <label
@@ -51,11 +56,12 @@ const Input = (props: InputProps) => {
             type="file"
             multiple={props.multiple}
             onChange={(e) => {
-              
-              
-              if( e.target.files!.length >= props.numberFile!){
-                  props.setError &&  props?.setError(`تعداد فایل های انتخاب شده بیشتر از ${props.numberFile} هست`)
-                  return
+              if (e.target.files!.length > props.numberFile!) {
+                props.setError &&
+                  props?.setError(
+                    `تعداد فایل های انتخاب شده بیشتر از ${props.numberFile} هست`
+                  );
+                return;
               }
               props.onChange && props.onChange(e);
               if (
@@ -65,14 +71,8 @@ const Input = (props: InputProps) => {
               ) {
                 const formdata = new FormData();
                 const files = Array.from(e.target.files);
-                files.forEach((item) => {
-                  formdata.append(item.name, item);
-                });
-                for (let i = 0; i < files.length; i++) {
-                  file.push(URL.createObjectURL(files[i]));
-                }
+                setFile([...file, ...files]);
                 mutate(formdata);
-                
               }
             }}
             accept={acceptType[props.accept || "all"]}
@@ -97,9 +97,42 @@ const Input = (props: InputProps) => {
         {props.type === "file" &&
           file.map((item) => {
             return (
-              <Avatar key={item} variant="rounded" className="cursor-pointer">
-                <img src={item} alt="" />
-              </Avatar>
+              <div className="" key={item.name}>
+                <Avatar
+                  onClick={() => setShowImagePreview(true)}
+                  variant="rounded"
+                  className="cursor-pointer"
+                >
+                  <img src={URL.createObjectURL(item)} alt="" />
+                </Avatar>
+                {showImagePreview && (
+                  <Modal>
+                    <div
+                      className="w-1/4 bg-white p-5 rounded-lg space-y-4"
+                      onClick={() => setShowImagePreview(false)}
+                    >
+                      <button type="button">
+                        <IoMdCloseCircleOutline />
+                      </button>
+                      <img
+                        src={URL.createObjectURL(item)}
+                        alt=""
+                        className="size-32 rounded-md mx-auto"
+                      />
+                      <div className="flex items-center justify-center">
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-error text-white  rounded"
+                          onClick={() => handleRemoveFile(item)}
+                        >
+                          حذف فایل
+                          <FaRegTrashCan />
+                        </button>
+                      </div>
+                    </div>
+                  </Modal>
+                )}
+              </div>
             );
           })}
       </div>

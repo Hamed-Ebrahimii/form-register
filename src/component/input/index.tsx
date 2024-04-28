@@ -1,10 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 import {  useState } from "react";
-import { CiFileOff } from "react-icons/ci";
 import { InputProps } from "./type";
-import Modal from "../modal";
-import { useClickOutside } from "@mantine/hooks";
+import FileManager from "../fileManager";
 interface Accept {
   image: "image/*";
   video: "video/mp4,video/x-m4v,video/*";
@@ -22,7 +20,6 @@ const acceptType: Accept = {
 type AcceptInput = "image" | "video" | "music" | "pdf" | "all";
 const Input = (props: InputProps) => {
   const [file, setFile] = useState<File[]>([]);
-
   const [showManagerFile, setShowManagerFile] = useState(false);
   const { mutate, isPending } = useMutation({
     mutationFn: (file: FormData) =>
@@ -39,16 +36,6 @@ const Input = (props: InputProps) => {
     });
     return checked;
   }
-  // const handleRemoveFile = (item: File) => {
-  //   setFile(file.filter((value) => value.name !== item.name));
-  // };
-  const handleCloseModal = () =>{
-    setShowManagerFile(false)
-    console.log('close');
-    
-  }
-  const refModal = useClickOutside(()=> handleCloseModal)
- 
   return (
     <div className="w-full flex flex-col items-start justify-center self-start gap-2 relative">
       <label
@@ -116,14 +103,7 @@ const Input = (props: InputProps) => {
       )}
       
       {
-        showManagerFile && <Modal ref={refModal} >
-          <div  className="w-1/2 bg-white rounded-lg px-3 py-2 grid grid-cols-3">
-            <div className="col-span-2 border-l justify-center">
-            <CiFileOff />
-            </div>
-
-          </div>
-        </Modal>
+        showManagerFile && <FileManager type={acceptType[props.accept || 'all']} multiple={props.multiple} handleFile={props.onChange}/>
       }
     </div>
   );

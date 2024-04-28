@@ -161,7 +161,7 @@ const FormEducation = () => {
               htmlFor="certificate"
               id="certificate"
               type="file"
-              accept="image"
+              accept="all"
               uploadWidthChange
               multiple
               requier

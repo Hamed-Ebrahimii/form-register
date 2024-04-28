@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import { InputProps } from "./type";
 import FileManager from "../fileManager";
 interface Accept {
@@ -35,7 +35,23 @@ const Input = (props: InputProps) => {
       checked = item.type.includes(acceptType[type]);
     });
     return checked;
-  }
+  }useEffect(()=>{
+    console.log(file);
+    
+    if (file.length > props.numberFile!) {
+      props.setError &&
+        props?.setError(
+          `تعداد فایل های انتخاب شده بیشتر از ${props.numberFile} هست`
+        );
+      
+    }
+    else {
+     props.setError && props.setError('')
+    }
+  } , [file])
+  const handleFile = (items : File[]) =>{
+        setFile(items)
+  } 
   return (
     <div className="w-full flex flex-col items-start justify-center self-start gap-2 relative">
       <label
@@ -103,7 +119,7 @@ const Input = (props: InputProps) => {
       )}
       
       {
-        showManagerFile && <FileManager type={acceptType[props.accept || 'all']} multiple={props.multiple} handleFile={props.onChange}/>
+        showManagerFile && <FileManager type={acceptType[props.accept || 'all']} multiple={props.multiple} handleFile={handleFile} close={setShowManagerFile}/>
       }
     </div>
   );

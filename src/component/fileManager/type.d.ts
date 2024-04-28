@@ -8,6 +8,7 @@ interface IBoxFile {
 
 interface IFileManager {
     type : string ,
-    handleFile : (event : ChangeEvent<HTMLInputElement>) => void,
-    multiple? : boolean
+    handleFile : (file : File[]) => void,
+    multiple? : boolean,
+    close? : (value : boolean) => void
 }

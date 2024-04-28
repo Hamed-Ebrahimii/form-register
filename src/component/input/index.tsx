@@ -1,62 +1,29 @@
-import { useMutation } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
-import {  useEffect, useState } from "react";
+import {  LegacyRef, useEffect, useRef, useState } from "react";
 import { InputProps } from "./type";
-import FileManager from "../fileManager";
+import BoxFile from "../fileManager/boxFile";
 interface Accept {
-  image: "image/*";
+  image: "image/";
   video: "video/mp4,video/x-m4v,video/*";
   music: "audio/mp3";
   pdf: "application/pdf";
   all: "";
 }
 const acceptType: Accept = {
-  image: "image/*",
+  image: "image/",
   video: "video/mp4,video/x-m4v,video/*",
   music: "audio/mp3",
   pdf: "application/pdf",
   all: "",
 };
-type AcceptInput = "image" | "video" | "music" | "pdf" | "all";
+
 const Input = (props: InputProps) => {
   const [file, setFile] = useState<File[]>([]);
-  const [showManagerFile, setShowManagerFile] = useState(false);
-  const { mutate, isPending } = useMutation({
-    mutationFn: (file: FormData) =>
-      axios<AxiosResponse>("http://localhost:3000/student", {
-        method: "post",
-        data: file,
-      }),
-  });
-  function checkType(files: FileList, type: AcceptInput) {
-    const listFile = Array.from(files);
-    let checked: boolean = true;
-    listFile.map((item) => {
-      checked = item.type.includes(acceptType[type]);
-    });
-    return checked;
-  }useEffect(()=>{
-    console.log(file);
-    
-    if (file.length > props.numberFile!) {
-      props.setError &&
-        props?.setError(
-          `تعداد فایل های انتخاب شده بیشتر از ${props.numberFile} هست`
-        );
-      
-    }
-    else {
-     props.setError && props.setError('')
-     const formdata = new FormData()
-     file.forEach(item =>{
-      formdata.append(item.name , item)
-      mutate(formdata)
-     })
-    }
-  } , [file])
-  const handleFile = (items : File[]) =>{
-        setFile(items)
-  } 
+  
+  const handleRemove = (item: File) => {
+    setFile(file.filter((value) => value.name !== item.name));
+  };
+  const input = useRef<HTMLInputElement>()
+  
   return (
     <div className="w-full flex flex-col items-start justify-center self-start gap-2 relative">
       <label
@@ -68,47 +35,25 @@ const Input = (props: InputProps) => {
       </label>
       {props.type === "file" ? (
         <>
-          {props.multiple ? (
-            <div className="w-full flex items-center px-2 py-0.5 gap-4 border bg-gray-100 rounded-full">
-              <button
-                type="button"
-                onClick={()=> setShowManagerFile(true)}
-                className="btn bg-blue-500 btn-sm text-white"
-              >
-                Choose Files
-              </button>
-              <p className="text-gray-500 font-medium">{file.length <= 0 ? 'No file chosen' : 'file : ' + file.length }</p>
-            </div>
-          ) : (
+          {
             <input
               type="file"
               multiple={props.multiple}
+              ref={input}
               onChange={(e) => {
-                if (e.target.files!.length > props.numberFile!) {
-                  props.setError &&
-                    props?.setError(
-                      `تعداد فایل های انتخاب شده بیشتر از ${props.numberFile} هست`
-                    );
-                  return;
-                }
                 props.onChange && props.onChange(e);
-                if (
-                  e.target.files &&
-                  props.uploadWidthChange &&
-                  checkType(e.target.files, props.accept || "all")
-                ) {
-                  const formdata = new FormData();
-                  const files = Array.from(e.target.files);
-                  setFile([...file, ...files]);
-                  mutate(formdata);
-                }
+                const files = Array.from(e.target.files || []);
+                setFile(files);
               }}
+              
               accept={acceptType[props.accept || "all"]}
-              className={`border w-full bg-gray-100  rounded-full py-1  outline-none placeholder:text-gray-400 text-gray-500 placeholder:text-xs placeholder:font-semibold file:mr-1 file:rounded-md file:border-0 file:ml-4  file:bg-blue-500 file:py-1 file:px-4 file:text-sm file:font-semibold file:text-white hover:file:bg-primary-700 ${
+              className={`${
+                file.length > 0 ? "rounded-t-lg rounded-b-0" : "rounded-full"
+              } border w-full bg-gray-100   py-1  outline-none placeholder:text-gray-400 text-gray-500 placeholder:text-xs placeholder:font-semibold file:mr-1 file:rounded-md file:border-0 file:ml-4  file:bg-blue-500 file:py-1 file:px-4 file:text-sm file:font-semibold file:text-white hover:file:bg-primary-700 ${
                 props.type === "file" ? "px-1" : "px-5"
               } ${props.error ? "border-red-400" : "border-gray-200"}`}
             />
-          )}
+          }
         </>
       ) : (
         <input
@@ -118,14 +63,21 @@ const Input = (props: InputProps) => {
           } ${props.error ? "border-red-400" : "border-gray-200"}`}
         />
       )}
-      {isPending && <progress className="progress w-56"></progress>}
+      {file.length > 0 && (
+        <div className="w-full relative bottom-2 z-30 bg-gray-100 rounded-b-lg border p-3 grid grid-cols-2 gap-3 max-h-32 overflow-auto">
+          {file.map((item) => (
+            <BoxFile
+              file={item}
+              handleRemove={() => handleRemove(item)}
+              type={item.type}
+              key={item.name}
+            />
+          ))}
+        </div>
+      )}
       {props.error && (
         <p className="text-xs text-red-400 font-medium">{props.error}</p>
       )}
-      
-      {
-        showManagerFile && <FileManager type={acceptType[props.accept || 'all']} multiple={props.multiple} handleFile={handleFile} close={setShowManagerFile}/>
-      }
     </div>
   );
 };

@@ -155,17 +155,19 @@ const FormEducation = () => {
               onChange={(e) => {
                 const file = Array.from(e.target.files || []);
                 field.onChange(file[0]);
+                
               }}
               error={errors.degreePhoto?.message}
               lable="فایل اسکن شده مدرک تحصیلی"
               htmlFor="certificate"
               id="certificate"
               type="file"
-              accept="all"
+              accept="image"
               uploadWidthChange
               multiple
               requier
-              numberFile={3}
+             file={[field.value]}
+              numberFile={10}
               setError={setErrorDegreePhoto}
             />
           )}

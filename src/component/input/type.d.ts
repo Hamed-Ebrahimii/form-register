@@ -15,5 +15,6 @@ interface InputProps
   fnUpload?: (file: File) => MutationFunction<unknown, File>;
   isPending?: boolean;
   numberFile? : number,
-  setError?  : (error : string) => void
+  setError?  : (error : string) => void,
+  file? : File[] 
 }

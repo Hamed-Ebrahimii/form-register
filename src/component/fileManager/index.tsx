@@ -14,7 +14,7 @@ const FileManager = ({handleFile , type , multiple , close} : IFileManager) =>{
     const ref = useClickOutside(()=> close && close(false))
     return(
         <Modal >
-          <div ref={ref} className="w-1/2 bg-white rounded-lg px-3 py-2 grid grid-cols-3 relative">
+          <div ref={ref} className="w-1/2 h-1/3 bg-white rounded-lg px-3 py-2 grid grid-cols-3 relative">
             <button type="button" className="absolute top-4 right-4" onClick={()=> close && close(false)}>
                     <MdClose/>
             </button>

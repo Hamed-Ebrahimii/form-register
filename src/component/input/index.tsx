@@ -1,24 +1,10 @@
 import { Avatar } from "@mui/material";
-import { MutationFunction, useMutation } from "@tanstack/react-query";
+import {  useMutation } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 
-import { DetailedHTMLProps, useState } from "react";
-interface Iprops
-  extends DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  > {
-  lable: string;
-  htmlFor: string;
-  requier?: boolean;
-  error?: string;
-  accept?: "image" | "video" | "music" | "pdf" | "all";
-  uploadWidthChange?: boolean;
-  fnUpload?: (file: File) => MutationFunction<unknown, File>;
-  isPending?: boolean;
-  numberFile? : number,
-  setError?  : (error : string) => void
-}
+import {  useState } from "react";
+import { InputProps } from "./type";
+
 const acceptType = {
   image: "image/*",
   video: "video/mp4,video/x-m4v,video/*",
@@ -26,7 +12,7 @@ const acceptType = {
   pdf: "application/pdf",
   all: "",
 };
-const Input = (props: Iprops) => {
+const Input = (props: InputProps) => {
   const [file] = useState<string[]>([]);
   const { mutate, isPending } = useMutation({
     mutationFn: (file: FormData) =>

@@ -7,7 +7,6 @@ interface IdataList extends HTMLAttributes<HTMLDataListElement> {
 const Datalist = (props: IdataList) => {
   return (
     <div>
-      
       <datalist
         id="data"
         {...props}

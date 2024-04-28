@@ -51,7 +51,9 @@ const Input = (props: InputProps) => {
             type="file"
             multiple={props.multiple}
             onChange={(e) => {
-              if(props.numberFile && e.target.files?.length || 0  >= props.numberFile!){
+              
+              
+              if( e.target.files!.length >= props.numberFile!){
                   props.setError &&  props?.setError(`تعداد فایل های انتخاب شده بیشتر از ${props.numberFile} هست`)
                   return
               }

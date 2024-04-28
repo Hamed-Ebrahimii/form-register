@@ -1,4 +1,4 @@
-import Input from "./component/input";
+import Input from "../input";
 import DropDown from "../dropDown";
 import { useState } from "react";
 import { ISearch } from "../dropDown/type";

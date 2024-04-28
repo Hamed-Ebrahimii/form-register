@@ -1,6 +1,6 @@
 import { Controller, useForm } from "react-hook-form";
 import DropDown from "../dropDown";
-import Input from "../form/component/input";
+import Input from "../input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   EducationForm,

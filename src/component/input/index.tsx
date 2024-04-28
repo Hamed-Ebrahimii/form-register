@@ -47,6 +47,11 @@ const Input = (props: InputProps) => {
     }
     else {
      props.setError && props.setError('')
+     const formdata = new FormData()
+     file.forEach(item =>{
+      formdata.append(item.name , item)
+      mutate(formdata)
+     })
     }
   } , [file])
   const handleFile = (items : File[]) =>{
@@ -72,7 +77,7 @@ const Input = (props: InputProps) => {
               >
                 Choose Files
               </button>
-              <p className="text-gray-500 font-medium">No file choosen</p>
+              <p className="text-gray-500 font-medium">{file.length <= 0 ? 'No file chosen' : 'file : ' + file.length }</p>
             </div>
           ) : (
             <input

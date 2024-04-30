@@ -1,5 +1,4 @@
-import { ReactNode, useEffect } from "react";
-import { useOs } from '@mantine/hooks';
+import { ReactNode } from "react";
 interface Iprops {
   checkBox: boolean;
   value: string;
@@ -17,21 +16,11 @@ const SelectOption = ({
   isChecked,
   onChange,
 }: Iprops) => {
-  const os = useOs()
-  useEffect(() => {
-    if (isChecked) {
-      onChange && onChange(value === "انتخاب کنید" ? undefined : value);
-      
-    }
-    console.log(os);
-  }, [isChecked]);
   return (
     <div
       onClick={() => {
         setValue(value);
         onChange && onChange(value === "انتخاب کنید" ? undefined : value);
-        console.log(isChecked);
-        
       }}
       className="flex py-2 text-sm flex-row-reverse items-center justify-end gap-2 hover:bg-gray-400 mb-1 px-3  hover:text-white rounded-md cursor-pointer"
     >

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import SelectOption from "./component/option";
 import Search from "./component/search";
 import { ISearch, Iprops } from "./type";
@@ -14,35 +14,30 @@ const DropDown = (props: Iprops) => {
   const input = useRef<HTMLInputElement>(null);
   const [showDrop, setShowDrop] = useState(false);
   const [value, setValue] = useState<string[]>([]);
-  const [selected, setSelected] = useState(props.placeholder || "");
   const ref = useClickOutside(() => setShowDrop(false));
   const [showSelected, setShowSelected] = useState(false);
   const handleItem = (data: string) => {
     const response = value.findIndex((item) => item === data);
 
-    setShowDrop(false);
     if (props.multiple) {
       if (response === -1) {
         setValue([...value, data]);
-        setSelected(data);
       } else {
         setValue(value.filter((item) => item !== data));
-        setSelected(data);
       }
       return;
     }
     if (response >= 0) {
       setValue([""]);
-      setSelected(data);
+
       return;
     }
     setValue([data]);
-    setSelected(data);
+
     props.setSearchValue("");
   };
   const handleRemove = (name: string) => {
     setValue(value.filter((item) => item !== name));
-    setSelected("انتخاب کنید");
   };
   const handleShowAnime = () => {
     anime({
@@ -88,26 +83,22 @@ const DropDown = (props: Iprops) => {
             className={`z-30 bg-inherit outline-none w-full text-ellipsis overflow-hidden whitespace-nowrap text-xs   rounded-full focus:border-blue-300 text-gray-400  font-bold flex items-center justify-between ${
               props.error ? "border-red-400" : "border-gray-200 "
             }`}
-            onClick={(e) => {
-              const target = e.target as HTMLButtonElement;
-              console.log("click");
-
-              if (target.id === "drop") {
-                setShowDrop(!showDrop);
-              }
+            onClick={() => {
+              setShowDrop(!showDrop);
               animeRotate();
+              handleShowAnime();
               setShowSelected(false);
             }}
             onKeyDown={() => {
               input.current?.focus();
             }}
           >
-            <span>{selected}</span>
+            <span>{value.length === 0 && props.placeholder}</span>
             <MdOutlineArrowDropDown className="!text-xl" />
           </button>
           {showDrop && (
             <div className="flex items-start justify-between absolute z-40 top-11 w-full">
-              <div className="drop opacity-0 bg-gray-100 border px-3  rounded-lg mt-5 max-h-40 py-2 overflow-auto relative w-full">
+              <div className="drop  bg-gray-100 border px-3  rounded-lg mt-5 max-h-40 py-2 overflow-auto relative w-full">
                 <div className="w-full flex items-center gap-4 ">
                   <div className="w-full">
                     <div className="py-1 mb-2 border-b flex  items-center gap-2">
@@ -224,7 +215,7 @@ const DropDown = (props: Iprops) => {
           )}
         </div>
         {props.multiple && (
-          <div className="  gap-2 absolute bg-gray-100 top-10 overflow-hidden pr-6 cursor-pointer  flex items-center w-10/12">
+          <div className="  gap-2 absolute bg-gray-100 top-10 overflow-hidden pr-2 cursor-pointer right-0 flex items-center w-10/12">
             {value &&
               value.map(
                 (item) =>

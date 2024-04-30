@@ -53,7 +53,6 @@ export const parsNumberToString = (value: number) => {
     }
   }
   if (villagers === 0) {
-    console.log("ok");
 
     IntigertString = oneStrings[oneNumber - 1];
   }

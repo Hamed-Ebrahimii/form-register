@@ -7,7 +7,7 @@ import {
   EducationFormType,
 } from "../../validation/registerFormValidation";
 import { parsNumberToString } from "../../utils/parsNumberToString";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { ISearch } from "../dropDown/type";
 import { useQuery } from "@tanstack/react-query";
 import { getAllEducation } from "../../api/getAllEducation";
@@ -23,10 +23,10 @@ const FormEducation = () => {
     mode: "all",
     resolver: zodResolver(EducationForm),
   });
-  const onSubmit = (data: EducationFormType) => {
+  const onSubmit = useCallback((data: EducationFormType) => {
     const newStudent = student;
     setStudent({ ...newStudent, ...data });
-  };
+  }, []);
   const [convertNumberToString, setConvertNumberToString] = useState("");
   const [search, setSearch] = useState<ISearch>({
     city: "",
@@ -43,9 +43,9 @@ const FormEducation = () => {
     queryKey: [search.education],
     queryFn: () => getAllEducation(search.education),
   });
-  const setErrorDegreePhoto = (error: string) => {
+  const setErrorDegreePhoto = useCallback((error: string) => {
     setError("degreePhoto", { message: error });
-  };
+  }, []);
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

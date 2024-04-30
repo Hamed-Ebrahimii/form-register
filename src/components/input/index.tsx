@@ -22,8 +22,6 @@ const Input = (props: InputProps) => {
   const handleRemove = (item: File) => {
     setFile(file.filter((value) => value.name !== item.name));
   };
- 
-  
   return (
     <div className="w-full flex flex-col items-start justify-center self-start gap-2 relative">
       <label

@@ -1,6 +1,6 @@
 import Input from "../input";
 import DropDown from "../dropDown";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { ISearch } from "../dropDown/type";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCity } from "../../api/getAllCity";
@@ -33,13 +33,11 @@ const Form = () => {
     resolver : zodResolver(profileFormValidation)
     
   })
-  const onSubmit = (data : profileFormValidationType) =>{
-        const newStudent = JSON.parse(JSON.stringify(student))
-        setStudent({...newStudent , ...data})
-        navigate('/education');
-      console.log(student);
-      
-  }
+  const onSubmit = useCallback((data : profileFormValidationType) =>{
+    const newStudent = JSON.parse(JSON.stringify(student))
+    setStudent({...newStudent , ...data})
+    navigate('/education');
+}, [])
   return (
     <form className=" w-full rounded-xl px-8 py-12 " onSubmit={handleSubmit(onSubmit)}>
       <section className="w-full grid grid-cols-4 gap-5 mt-6">

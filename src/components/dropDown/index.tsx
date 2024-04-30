@@ -18,7 +18,9 @@ const DropDown = (props: Iprops) => {
   const [showSelected, setShowSelected] = useState(false);
   const handleItem = (data: string) => {
     const response = value.findIndex((item) => item === data);
-
+    if(!props.multiple){
+      setShowDrop(false)
+    }
     if (props.multiple) {
       if (response === -1) {
         setValue([...value, data]);
@@ -29,7 +31,6 @@ const DropDown = (props: Iprops) => {
     }
     if (response >= 0) {
       setValue([""]);
-
       return;
     }
     setValue([data]);
@@ -93,7 +94,7 @@ const DropDown = (props: Iprops) => {
               input.current?.focus();
             }}
           >
-            <span>{value.length === 0 && props.placeholder}</span>
+            <span>{value.length === 0 ? props.placeholder : value[0]}</span>
             <MdOutlineArrowDropDown className="!text-xl" />
           </button>
           {showDrop && (
@@ -176,7 +177,6 @@ const DropDown = (props: Iprops) => {
                         value={"انتخاب کنید"}
                       />
                     )}
-
                     {props.data?.map((item) => (
                       <SelectOption
                         onChange={props.onChange}
@@ -215,7 +215,7 @@ const DropDown = (props: Iprops) => {
           )}
         </div>
         {props.multiple && (
-          <div className="  gap-2 absolute bg-gray-100 top-10 overflow-hidden pr-2 cursor-pointer right-0 flex items-center w-10/12">
+          <div className="gap-2 absolute bg-gray-100 top-10 overflow-hidden pr-2 cursor-pointer right-0 flex items-center w-10/12">
             {value &&
               value.map(
                 (item) =>

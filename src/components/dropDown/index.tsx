@@ -11,7 +11,6 @@ import Chip from "./component/chip";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 const DropDown = (props: Iprops) => {
-  const [selectAll, setSelectAll] = useState(false);
   const input = useRef<HTMLInputElement>(null);
   const [showDrop, setShowDrop] = useState(false);
   const [value, setValue] = useState<string[]>([]);
@@ -20,7 +19,7 @@ const DropDown = (props: Iprops) => {
   const [showSelected, setShowSelected] = useState(false);
   const handleItem = (data: string) => {
     const response = value.findIndex((item) => item === data);
-    setSelectAll(false);
+
     setShowDrop(false);
     if (props.multiple) {
       if (response === -1) {
@@ -44,7 +43,6 @@ const DropDown = (props: Iprops) => {
   const handleRemove = (name: string) => {
     setValue(value.filter((item) => item !== name));
     setSelected("انتخاب کنید");
-    setSelectAll(false);
   };
   const handleShowAnime = () => {
     anime({
@@ -61,19 +59,6 @@ const DropDown = (props: Iprops) => {
     }).play();
   };
   const newState: ISearch = JSON.parse(JSON.stringify(props.searchData || {}));
-  useEffect(() => {
-    if (showDrop) {
-      handleShowAnime();
-    }
-    animeRotate();
-  }, [showDrop]);
-  useEffect(() => {
-    if (selectAll) {
-      setValue(props.data || []);
-      setSelected("");
-    }
-  }, [selectAll]);
-
   return (
     <div
       className="flex w-full items-center justify-center gap-2 relative "
@@ -129,13 +114,12 @@ const DropDown = (props: Iprops) => {
                       {props.selectAll && (
                         <SelectOption
                           onChange={props.onChange}
-                          isChecked={selectAll}
+                          isChecked={value.length === props.data?.length}
                           setValue={() => {
-                            setSelectAll(!selectAll);
-                            if (!selectAll) {
+                            setValue(props.data || []);
+                            if (value.length !== props.data?.length) {
                               setValue(props.data || []);
                             } else {
-                              console.log(value, selectAll);
                               setValue([]);
                             }
                           }}
@@ -155,7 +139,6 @@ const DropDown = (props: Iprops) => {
                           onChange={(e) => {
                             newState[props.name] = e;
                             props.setSearchValue(newState);
-                            setSelectAll(false);
                           }}
                         />
                       )}

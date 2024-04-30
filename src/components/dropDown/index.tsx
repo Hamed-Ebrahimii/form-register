@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import SelectOption from "./component/option";
 import Search from "./component/search";
 import { ISearch, Iprops } from "./type";
@@ -39,20 +39,20 @@ const DropDown = (props: Iprops) => {
   const handleRemove = (name: string) => {
     setValue(value.filter((item) => item !== name));
   };
-  const handleShowAnime = () => {
+  const handleShowAnime = useCallback(() => {
     anime({
       targets: ".drop",
       opacity: "1",
       duration: 3000,
     }).play();
-  };
-  const animeRotate = () => {
+  } , [])
+  const animeRotate = useCallback(() => {
     anime({
       targets: `.${props.name}`,
       rotate: showDrop ? "360deg" : "180deg",
       duration: 1000,
     }).play();
-  };
+  } , [])
   const newState: ISearch = JSON.parse(JSON.stringify(props.searchData || {}));
   return (
     <div

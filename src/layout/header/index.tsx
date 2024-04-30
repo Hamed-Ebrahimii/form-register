@@ -1,27 +1,25 @@
 import { Outlet } from "react-router-dom";
 import Tab from "../../components/Tab";
 
+const Header = () => {
+  const tabs = [
+    {
+      path: "/",
+      name: "مشخصات فردی",
+    },
+    {
+      path: "/education",
+      name: "سوابق تحصیلی",
+    },
+  ];
 
-const Header = () =>{
-    const tabs = [
-        {
-          path: "/",
-          name: "مشخصات فردی",
-        },
-        {
-          path: "/education",
-          name: "سوابق تحصیلی",
-        },
-       
-      ];
-    
-    return(
+  return (
     <div className="w-full">
-        <header className="py-4 border-b w-full px-3">
+      <header className="py-4 border-b w-full px-3">
         <Tab tab={tabs} />
       </header>
-      <Outlet/>
-      </div>
-    )
-}
-export default Header
+      <Outlet />
+    </div>
+  );
+};
+export default Header;

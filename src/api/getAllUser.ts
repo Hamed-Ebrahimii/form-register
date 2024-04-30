@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from "axios"
-import { ISearch } from "../component/dropDown/type"
+import axios, {  } from "axios"
+import { ISearch } from "../components/dropDown/type"
 
 interface ResponseApi {
     "id": number,

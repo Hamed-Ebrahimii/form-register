@@ -1,7 +1,7 @@
 import {  RouterProvider, createBrowserRouter } from "react-router-dom";
-import Form from "../component/form";
+import Form from "../components/form";
 import Header from "../layout/header";
-import FormEducation from "../component/formEducation";
+import FormEducation from "../components/formEducation";
 
 const router = createBrowserRouter([
     {

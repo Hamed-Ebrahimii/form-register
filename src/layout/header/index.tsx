@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Tab from "../../component/Tab";
+import Tab from "../../components/Tab";
 
 
 const Header = () =>{

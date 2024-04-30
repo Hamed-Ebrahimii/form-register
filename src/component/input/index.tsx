@@ -1,4 +1,4 @@
-import {  LegacyRef, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { InputProps } from "./type";
 import BoxFile from "../fileManager/boxFile";
 interface Accept {
@@ -22,7 +22,7 @@ const Input = (props: InputProps) => {
   const handleRemove = (item: File) => {
     setFile(file.filter((value) => value.name !== item.name));
   };
-  const input = useRef<HTMLInputElement>()
+ 
   
   return (
     <div className="w-full flex flex-col items-start justify-center self-start gap-2 relative">
@@ -39,7 +39,6 @@ const Input = (props: InputProps) => {
             <input
               type="file"
               multiple={props.multiple}
-              ref={input}
               onChange={(e) => {
                 props.onChange && props.onChange(e);
                 const files = Array.from(e.target.files || []);

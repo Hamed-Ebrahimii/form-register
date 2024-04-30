@@ -223,7 +223,7 @@ const DropDown = (props: Iprops) => {
                     <Chip
                       lable="موردی یافت نشد"
                       onDelete={() => {}}
-                      type="defulte"
+                      type="defaulte"
                     />
                   ) : (
                     value.map((item) => (

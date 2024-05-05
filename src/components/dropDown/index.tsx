@@ -37,7 +37,7 @@ const DropDown = (props: DropDownProps) => {
 
     props.setSearchValue("");
   };
-  const handleRemove = (name: string) => {
+  const onRemove = (name: string) => {
     setValue(value.filter((item) => item !== name));
   };
   const handleShowAnime = useCallback(() => {
@@ -203,7 +203,7 @@ const DropDown = (props: DropDownProps) => {
                     value.map((item) => (
                       <Chip
                         key={item}
-                        onDelete={handleRemove}
+                        onDelete={onRemove}
                         lable={item}
                         type="delete"
                       />
@@ -219,7 +219,7 @@ const DropDown = (props: DropDownProps) => {
             {value &&
               value.map(
                 (item) =>
-                  item !== "انتخاب کنید" && (
+                  item && (
                     <div
                       key={item}
                       className="z-40 bg-gray-100 whitespace-nowrap rounded-lg  text-xs text-gray-400 flex gap-1 cursor-default items-center justify-between"
@@ -241,7 +241,7 @@ const DropDown = (props: DropDownProps) => {
                         id="delete-val"
                         className=" bg-inherit bg-opacity-100"
                         onClick={() => {
-                          handleRemove(item);
+                          onRemove(item);
                         }}
                       >
                         <IoMdClose />

@@ -21,7 +21,6 @@ const Form = () => {
     education: "",
     militaryService : ''
   });
-
   const { data: city } = useQuery({
     queryKey: [search.city],
     queryFn: () => getAllCity(search.city),
@@ -294,7 +293,7 @@ const Form = () => {
                   htmlFor="phone"
                   lable="شماره تماس"
                   requier
-                  placeholder="شماره تماس خود را وارد کنید"
+                  placeholder="شماره تماس پدر را وارد کنید"
                   type="text"
                   id="phone"
                 />

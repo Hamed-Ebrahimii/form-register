@@ -90,8 +90,9 @@ const FormEducation = () => {
               htmlFor=""
               lable="معدل اخرین مدرک خود"
               requier
-              min={0}
-              max={20}
+              min={'0'}
+              max={'20'}
+              
               type="number"
               placeholder="معدل خود را وارد کنید"
               id="family"

@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import SelectOption from "./component/option";
 import Search from "./component/search";
-import { ISearch, Iprops } from "./type";
+import { DropDownProps, ISearch } from "./type";
 import anime from "animejs/lib/anime.es.js";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
@@ -10,7 +10,7 @@ import { Tooltip } from "@mui/material";
 import Chip from "./component/chip";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-const DropDown = (props: Iprops) => {
+const DropDown = (props: DropDownProps) => {
   const input = useRef<HTMLInputElement>(null);
   const [showDrop, setShowDrop] = useState(false);
   const [value, setValue] = useState<string[]>([]);
@@ -18,8 +18,8 @@ const DropDown = (props: Iprops) => {
   const [showSelected, setShowSelected] = useState(false);
   const handleItem = (data: string) => {
     const response = value.findIndex((item) => item === data);
-    if(!props.multiple){
-      setShowDrop(false)
+    if (!props.multiple) {
+      setShowDrop(false);
     }
     if (props.multiple) {
       if (response === -1) {
@@ -46,14 +46,14 @@ const DropDown = (props: Iprops) => {
       opacity: "1",
       duration: 3000,
     }).play();
-  } , [])
+  }, []);
   const animeRotate = useCallback(() => {
     anime({
       targets: `.${props.name}`,
       rotate: showDrop ? "360deg" : "180deg",
       duration: 1000,
     }).play();
-  } , [])
+  }, []);
   const newState: ISearch = JSON.parse(JSON.stringify(props.searchData || {}));
   return (
     <div

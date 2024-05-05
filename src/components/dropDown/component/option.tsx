@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-interface Iprops {
+interface SelectProps {
   checkBox: boolean;
   value: string;
   children: ReactNode;
@@ -15,7 +15,7 @@ const SelectOption = ({
   setValue,
   isChecked,
   onChange,
-}: Iprops) => {
+}: SelectProps) => {
   return (
     <div
       onClick={() => {

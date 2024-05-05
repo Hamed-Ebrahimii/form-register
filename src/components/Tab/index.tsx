@@ -1,9 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
-interface Iprops {
+interface ITab {
     path : string,
     name : string
 }
-const Tab = ({ tab }: { tab: Iprops[]  }) => {
+const Tab = ({ tab }: { tab: ITab[]  }) => {
     const location = useLocation()
     const pathname = location.pathname
     console.log(pathname);

@@ -22,9 +22,6 @@ export let student : EducationFormType & profileFormValidationType ={
         phoneFather : '',
         placeOfBirth : '',
         studentPhoto : new File([''] , '')
-
-
-
 }
 export const setStudent = (data : EducationFormType & profileFormValidationType) =>{
     student = data

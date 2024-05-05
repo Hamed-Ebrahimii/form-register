@@ -1,6 +1,6 @@
 import { HTMLAttributes, ReactNode } from "react";
 
-interface Iprops extends HTMLAttributes<HTMLDivElement> {
+interface DropDownProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
   multiple?: boolean;
   search?: boolean;

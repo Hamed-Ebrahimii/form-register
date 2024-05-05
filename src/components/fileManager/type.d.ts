@@ -1,12 +1,12 @@
 
 
-interface IBoxFile {
+interface BoxFileProps {
   type: string;
   file: File;
-  handleRemove: (file: File) => void;
+  onClick: (file: File) => void;
 }
 
-interface IFileManager {
+interface FileManagerProps {
     type : string ,
     handleFile : (file : File[]) => void,
     multiple? : boolean,

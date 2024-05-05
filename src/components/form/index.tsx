@@ -38,7 +38,9 @@ const Form = () => {
     navigate('/education');
 }, [])
   return (
-    <form className=" w-full rounded-xl px-8 py-12 " onSubmit={handleSubmit(onSubmit)}>
+    <form
+    autoComplete="off"
+    className=" w-full rounded-xl px-8 py-12 " onSubmit={handleSubmit(onSubmit)}>
       <section className="w-full grid grid-cols-4 gap-5 mt-6">
         <Controller
         name="name"

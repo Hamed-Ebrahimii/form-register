@@ -16,7 +16,7 @@ const DropDown = (props: DropDownProps) => {
   const [value, setValue] = useState<string[]>([]);
   const ref = useClickOutside(() => setShowDrop(false));
   const [showSelected, setShowSelected] = useState(false);
-  const handleItem = (data: string) => {
+  const onChange = (data: string) => {
     const response = value.findIndex((item) => item === data);
     if (!props.multiple) {
       setShowDrop(false);
@@ -156,7 +156,7 @@ const DropDown = (props: DropDownProps) => {
                 ) : props.data?.length === 0 ? (
                   <SelectOption
                     isChecked={false}
-                    setValue={handleItem}
+                    setValue={onChange}
                     checkBox={props.checkBox || false}
                     children={["گزینه ای یافت نشد"]}
                     value={""}
@@ -171,7 +171,7 @@ const DropDown = (props: DropDownProps) => {
                             ? undefined
                             : value.includes("انتخاب کنید")
                         }
-                        setValue={handleItem}
+                        setValue={onChange}
                         checkBox={false}
                         children={"انتخاب کنید"}
                         value={"انتخاب کنید"}
@@ -181,7 +181,7 @@ const DropDown = (props: DropDownProps) => {
                       <SelectOption
                         onChange={props.onChange}
                         isChecked={value.includes(item)}
-                        setValue={handleItem}
+                        setValue={onChange}
                         checkBox={props.checkBox || false}
                         key={item}
                         children={item}

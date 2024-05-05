@@ -65,7 +65,7 @@ const Input = (props: InputProps) => {
           {file.map((item) => (
             <BoxFile
               file={item}
-              handleRemove={() => handleRemove(item)}
+              onClick={() => handleRemove(item)}
               type={item.type}
               key={item.name}
             />

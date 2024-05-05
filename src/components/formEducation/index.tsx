@@ -50,6 +50,7 @@ const FormEducation = () => {
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="w-full rounded-xl px-8 py-12  shadow-sm"
+      autoComplete="off"
     >
       <section className="w-full grid grid-cols-4 gap-5 mt-6">
         <div className="flex items-end justify-between gap-4">
@@ -90,9 +91,8 @@ const FormEducation = () => {
               htmlFor=""
               lable="معدل اخرین مدرک خود"
               requier
-              min={'0'}
-              max={'20'}
-              
+              min={"0"}
+              max={"20"}
               type="number"
               placeholder="معدل خود را وارد کنید"
               id="family"
@@ -156,7 +156,6 @@ const FormEducation = () => {
               onChange={(e) => {
                 const file = Array.from(e.target.files || []);
                 field.onChange(file[0]);
-                
               }}
               error={errors.degreePhoto?.message}
               lable="فایل اسکن شده مدرک تحصیلی"
@@ -167,7 +166,7 @@ const FormEducation = () => {
               uploadWidthChange
               multiple
               requier
-             file={[field.value]}
+              file={[field.value]}
               numberFile={10}
               setError={setErrorDegreePhoto}
             />

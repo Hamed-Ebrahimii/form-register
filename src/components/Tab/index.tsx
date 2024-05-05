@@ -5,9 +5,7 @@ interface ITab {
 }
 const Tab = ({ tab }: { tab: ITab[]  }) => {
     const location = useLocation()
-    const pathname = location.pathname
-    console.log(pathname);
-    
+    const pathname = location.pathname  
   return (
     <div className="w-full flex items-center justify-start">
       {tab.map((item) => (

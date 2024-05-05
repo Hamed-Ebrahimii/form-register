@@ -11,7 +11,7 @@ export const profileFormValidation = z.object({
     .min(2, "نام شما باید حداقل دو حرف باشد"),
   family: z
     .string({ required_error: "نام خانوادگی نمیتواند خالی باشد" })
-    .min(2, "نام خانوادگی شما باید حداقل دو حرف باشد"),
+    .min(4, "نام خانوادگی شما باید حداقل چهار حرف باشد"),
   dateOfBirth: z
     .string({ required_error: "لطفا تاریخ تولد خود را انتخاب کنید" })
     .min(10, "تاریخ وارد شده معتبر نیست"),

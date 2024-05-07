@@ -6,7 +6,7 @@ interface InputProps
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > {
-  lable: string;
+  label: string;
   htmlFor: string;
   requier?: boolean;
   error?: string;

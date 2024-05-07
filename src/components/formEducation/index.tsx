@@ -65,7 +65,7 @@ const FormEducation = () => {
                 search={true}
                 error={errors.degreeOfEducation?.message}
                 fnData={() => {}}
-                lable="آخرین مدرک تحصیلی"
+                label="آخرین مدرک تحصیلی"
                 requier
                 name="education"
                 data={data?.data.map((item) => item.name)}
@@ -89,7 +89,7 @@ const FormEducation = () => {
               }}
               error={errors.average?.message}
               htmlFor=""
-              lable="معدل اخرین مدرک خود"
+              label="معدل اخرین مدرک خود"
               requier
               min={"0"}
               max={"20"}
@@ -107,7 +107,7 @@ const FormEducation = () => {
               {...field}
               error={errors.dateOfObtainingDegree?.message}
               htmlFor=""
-              lable="تاریخ اخذ مدرک"
+              label="تاریخ اخذ مدرک"
               requier
               placeholder="تاریخ اخذ مدرک خود را وارد کنید"
               type="date"
@@ -123,7 +123,7 @@ const FormEducation = () => {
               {...field}
               error={errors.averageString?.message}
               htmlFor="code"
-              lable="معدل کل به حروف"
+              label="معدل کل به حروف"
               requier
               value={convertNumberToString}
               readOnly
@@ -141,7 +141,7 @@ const FormEducation = () => {
               {...field}
               error={errors.degreeSeries?.message}
               htmlFor="fatherName"
-              lable="سریال اخرین مدرک تحصیلی"
+              label="سریال اخرین مدرک تحصیلی"
               requier
               placeholder="سریال اخرین مدرک تحصیلی خود را وارد کنید"
               id="fatherName"
@@ -158,7 +158,7 @@ const FormEducation = () => {
                 field.onChange(file[0]);
               }}
               error={errors.degreePhoto?.message}
-              lable="فایل اسکن شده مدرک تحصیلی"
+              label="فایل اسکن شده مدرک تحصیلی"
               htmlFor="certificate"
               id="certificate"
               type="file"
@@ -182,7 +182,7 @@ const FormEducation = () => {
                 const file = Array.from(e.target.files || []);
                 field.onChange(file[0]);
               }}
-              lable="تصویر پرسنلی دانشجو"
+              label="تصویر پرسنلی دانشجو"
               htmlFor="certificate"
               id="certificate"
               type="file"

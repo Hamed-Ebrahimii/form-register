@@ -28,7 +28,7 @@ const Input = (props: InputProps) => {
         className="text-sm text-gray-500 font-medium"
         htmlFor={props.htmlFor}
       >
-        {props.lable}
+        {props.label}
         {props.requier && <span className="text-red-400 font-bold"> *</span>}
       </label>
       {props.type === "file" ? (
@@ -37,6 +37,7 @@ const Input = (props: InputProps) => {
             <input
               type="file"
               multiple={props.multiple}
+              
               onChange={(e) => {
                 props.onChange && props.onChange(e);
                 const files = Array.from(e.target.files || []);

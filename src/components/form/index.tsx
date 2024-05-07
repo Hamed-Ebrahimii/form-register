@@ -48,7 +48,7 @@ const Form = () => {
         render={({field})=>(
           <Input
           htmlFor="name"
-          lable="نام"
+          label="نام"
           requier
           placeholder="نام خود را وارد کنید"
           id="name"
@@ -63,7 +63,7 @@ const Form = () => {
           render={({field})=>(
             <Input
               htmlFor="family"
-              lable=" نام خانوادگی"
+              label=" نام خانوادگی"
               requier
               placeholder="نام خانوادگی خود را وارد کنید"
               id="family"
@@ -79,7 +79,7 @@ const Form = () => {
             <Input
               {...field}
               htmlFor="bearthDate"
-              lable="تاریخ تولد"
+              label="تاریخ تولد"
               requier
               placeholder="تاریخ تولد خود را وارد کنید"
               type="date"
@@ -97,7 +97,7 @@ const Form = () => {
               {...field}
               error={errors.nationalCode?.message}
               htmlFor="code"
-              lable="کد ملی"
+              label="کد ملی"
               requier
               placeholder="کد ملی خود را وارد کنید"
               type="text"
@@ -113,7 +113,7 @@ const Form = () => {
             {...field}
             error={errors.fatherName?.message}
               htmlFor="fatherName"
-              lable="نام پدر"
+              label="نام پدر"
               requier
               placeholder="نام پدر خود را وارد کنید"
               id="fatherName"
@@ -129,7 +129,7 @@ const Form = () => {
             {...field}
             error={errors.militaryService?.message}
               fnData={() => {}}
-              lable="وضیعت نظام وظیفه"
+              label="وضیعت نظام وظیفه"
               requier
               searchData={search.militaryService}
               setSearchValue={setSearch}
@@ -175,7 +175,7 @@ const Form = () => {
                 error={errors.placeOfBirth?.message}
                 {...field}
                   requier
-                  lable="محل تولد"
+                  label="محل تولد"
                   fnData={() => {}}
                   name="city"
                   placeholder="انتخاب کنید"
@@ -194,7 +194,7 @@ const Form = () => {
                 {...field}
                 error={errors.phone?.message}
                   htmlFor="phone"
-                  lable="شماره تماس"
+                  label="شماره تماس"
                   requier
                   placeholder="شماره تماس خود را وارد کنید"
                   type="text"
@@ -212,7 +212,7 @@ const Form = () => {
                   const file = Array.from(e.target.files || [])
                   field.onChange(file[0])
               }}
-                  lable="عکس شناسنامه"
+                  label="عکس شناسنامه"
                   htmlFor="certificate"
                   id="certificate"
                   type="file"
@@ -230,7 +230,7 @@ const Form = () => {
                   field.onChange(file[0])
               }}
                 error={errors.nationalCart?.message}
-                  lable="عکس کارت ملی"
+                  label="عکس کارت ملی"
                   htmlFor="certificate"
                   id="certificate"
                   type="file"
@@ -260,7 +260,7 @@ const Form = () => {
                   {...field}
                   error={errors.fatherName?.message}
                   htmlFor="fatherName"
-                  lable="نام"
+                  label="نام"
                   requier
                   placeholder="نام پدر را وارد کنید"
                   type="text"
@@ -276,7 +276,7 @@ const Form = () => {
                   {...field}
                   error={errors.dateOfBirthFather?.message}
                   htmlFor="bearthDate"
-                  lable="تاریخ تولد"
+                  label="تاریخ تولد"
                   requier
                   placeholder="تاریخ تولد خود را وارد کنید"
                   type="date"
@@ -293,7 +293,7 @@ const Form = () => {
                 {...field}
                 error={errors.phoneFather?.message}
                   htmlFor="phone"
-                  lable="شماره تماس"
+                  label="شماره تماس"
                   requier
                   placeholder="شماره تماس پدر را وارد کنید"
                   type="text"
@@ -309,7 +309,7 @@ const Form = () => {
                 {...field}
                 error={errors.nationalCodeFather?.message}
                 htmlFor="phone"
-                lable="کد ملی"
+                label="کد ملی"
                 requier
                 placeholder="کد ملی پدر  خود را وارد کنید"
                 type="text"

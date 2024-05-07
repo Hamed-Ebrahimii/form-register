@@ -68,9 +68,9 @@ const DropDown = (props: DropDownProps) => {
       >
         <label
           className="text-sm text-gray-500 font-medium"
-          htmlFor={props.lable}
+          htmlFor={props.label}
         >
-          {props.lable}
+          {props.label}
           {props.requier && <span className="text-red-400 font-bold"> *</span>}
         </label>
         <div
@@ -195,16 +195,16 @@ const DropDown = (props: DropDownProps) => {
                 <div className="w-32  rounded-lg absolute top-5 right-full border bg-gray-100 z-50 h-[160px] overflow-y-auto">
                   {value.length <= 0 ? (
                     <Chip
-                      lable="موردی یافت نشد"
+                      label="موردی یافت نشد"
                       onDelete={() => {}}
-                      type="defaulte"
+                      type="default"
                     />
                   ) : (
                     value.map((item) => (
                       <Chip
                         key={item}
                         onDelete={onRemove}
-                        lable={item}
+                        label={item}
                         type="delete"
                       />
                     ))

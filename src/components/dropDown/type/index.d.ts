@@ -20,7 +20,7 @@ interface DropDownProps extends HTMLAttributes<HTMLDivElement> {
     | "job"
     | "education"
     | "militaryService";
-  lable: string;
+  label: string;
   requier?: boolean;
   error?: string;
   onChange?: (value: string | undefined) => void;
